@@ -13,7 +13,10 @@ class Auth(BaseRouter):
     def post(self):
         self._read_args()
         answer = auth(self.data)
-        return answer or {}
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
 
 
 class Register(BaseRouter):
@@ -30,4 +33,7 @@ class Register(BaseRouter):
             or '' == self.data.get(names.DESCRIPTION):
             return {}
         answer = register(self.data)
-        return answer or {}
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
