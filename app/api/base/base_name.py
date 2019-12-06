@@ -29,6 +29,7 @@ ID_NAME = "id_nom"
 ID_USER = "id_user"
 ID_PROFILE = "id_profile"
 ID_NOTIFICATION = 'id_notification'
+ID_STORIES = 'id_stories'
 ID_CV = "id_cv"
 ID_PROJECT = "id_project"
 ID_LESSON = "id_lesson"
