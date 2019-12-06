@@ -62,3 +62,16 @@ class Provider:
           where "id_profile" = {id_profile}
         """
         return Sql.exec(query=query, args=args)
+
+    @staticmethod
+    def get_storis_list(args):
+        query = """
+        select
+          img."id_stories",
+          array_agg(img."url" order by position desc) as image
+        from images img
+        join stories str on img."id_stories" = str."id_stories"
+        where "id_user" = '{id_user}'
+        group by img."id_stories"
+        """
+        return Sql.exec(query=query, args=args)

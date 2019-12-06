@@ -30,3 +30,18 @@ class StoriesView(BaseRouter):
         self._read_args()
         answer = change_status(self.data)
         return answer or {}
+
+class StoriesList(BaseRouter):
+    """
+    Роут работы со сторис
+    """
+    def __init__(self):
+        super().__init__()
+        self.args = [names.ID_STORIES, names.ID_USER, names.STATUS, names.IS_LIKE]
+
+    def get(self, id_user):
+        args = {
+            names.ID_USER: id_user
+        }
+        answer = get_storis_list(args)
+        return answer
