@@ -22,8 +22,13 @@ class Statistic(BaseRouter):
                 'Access-Control-Allow-Headers': '*',
                 }
 
+    def get(self):
+        answer = get_statistic_list()
+        return answer
+
 
 class StatisticView(BaseRouter):
+
     def get(self, id_user):
         args = {
             names.ID_USER: id_user
