@@ -46,3 +46,9 @@ def change_status(args):
     else:
         answer = provider.insert_status(args)
     return 'OK'
+
+
+def get_storis_list(args):
+    provider = Provider()
+    answer = provider.get_storis_list(args)
+    return answer

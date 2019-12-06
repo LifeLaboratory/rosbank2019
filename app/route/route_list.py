@@ -1,5 +1,5 @@
 from app.route.notifications.route import Notification, Notification_get
-from app.route.stories.route import Stories
+from app.route.stories.route import Stories, StoriesList
 from app.route.stories.route import StoriesView
 from app.route.stories.route import StoriesInsert
 from app.route.stories.route import StoriesUpdate
@@ -17,5 +17,6 @@ ROUTES = {
     '/api/auth': Auth,
     '/api/profile': Profile,
     '/api/statistic': Statistic,
-    "/api/statistic/<int:id_user>": StatisticView
+    "/api/statistic/<int:id_user>": StatisticView,
+    "/api/stories/<int:id_user>": StoriesList
 }

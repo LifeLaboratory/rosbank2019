@@ -71,3 +71,15 @@ class StoriesUpdate(BaseRouter):
                 'Access-Control-Allow-Headers': '*',
                 }
 
+
+class StoriesList(BaseRouter):
+    """
+    Роут работы со сторис
+    """
+
+    def get(self, id_user):
+        args = {
+            names.ID_USER: id_user
+        }
+        answer = get_storis_list(args)
+        return answer
