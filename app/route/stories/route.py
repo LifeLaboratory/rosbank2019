@@ -101,4 +101,7 @@ class StoriesList(BaseRouter):
             names.ID_USER: id_user
         }
         answer = get_storis_list(args)
-        return answer
+        return answer, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }

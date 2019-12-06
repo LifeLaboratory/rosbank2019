@@ -24,7 +24,10 @@ class Statistic(BaseRouter):
 
     def get(self):
         answer = get_statistic_list()
-        return answer
+        return answer, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
 
 
 class StatisticView(BaseRouter):
