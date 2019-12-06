@@ -6,26 +6,19 @@ class Provider:
     def get_profile(args):
         query = """
         select 
-          "@user"
-          , "fio"
-          , "description"
-          , "photo"
-          , "email"
-          , "number"
+          users.*
+          , description
         from "users"
-        where "@user" = {user}
+        left join profile on profile.id_profile = users.id_profile
+        where "id_user" = {id_user}
         """
         return Sql.exec(query=query, args=args)
 
     @staticmethod
     def update_profile(args):
         query = """
-        update "users" 
-          set "fio" = '{fio}'
-            , "description" = '{description}'
-            , "photo" = '{photo}'
-            , "email" = '{email}'
-            , "number" = '{number}'
-          where "@user" = {user}
+        update "profile" 
+          set "description" = '{description}'
+          where "id_profile" = {id_profile}
         """
         return Sql.exec(query=query, args=args)
