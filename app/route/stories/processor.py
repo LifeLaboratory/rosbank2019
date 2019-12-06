@@ -10,3 +10,15 @@ def publicate_storie(args):
         args[names.ID_USER] = id_user.get(names.ID_USER)
         answer = provider.publicate_storie(args)
     return 'OK'
+
+
+def change_status(args):
+    provider = Provider()
+    status = provider.select_status(args)
+    args['is_open'] = args['status'] == 'open'
+    args['is_view'] = args['status'] == 'view'
+    if status:
+        answer = provider.update_status(args)
+    else:
+        answer = provider.insert_status(args)
+    return 'OK'
