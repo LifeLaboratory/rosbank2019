@@ -6,11 +6,8 @@ class Provider:
     def get_profile(args):
         query = """
         select 
-          users.*
-          , description
-        from "users"
-        left join profile on profile.id_profile = users.id_profile
-        where "id_user" = {id_user}
+          *
+        from "profile"
         """
         return Sql.exec(query=query, args=args)
 

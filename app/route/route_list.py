@@ -10,6 +10,6 @@ ROUTES = {
     '/api/notifications': Notification,
     '/api/notifications/<int:id_user>': Notification_get,
     '/api/auth': Auth,
-    '/api/profile/<int:id_user>': Profile,
+    '/api/profile': Profile,
     '/api/statistic': Statistic,
 }
