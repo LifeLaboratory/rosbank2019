@@ -32,7 +32,46 @@ class StoriesView(BaseRouter):
     def post(self):
         self._read_args()
         answer = change_status(self.data)
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
         return answer or {}
+
+
+class StoriesInsert(BaseRouter):
+    """
+    Роут работы со сторис
+    """
+    def __init__(self):
+        super().__init__()
+        self.args = [names.ID_USER, names.URL]
+
+    def post(self):
+        self._read_args()
+        answer = insert_stories(self.data)
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
+
+
+class StoriesUpdate(BaseRouter):
+    """
+    Роут работы со сторис
+    """
+    def __init__(self):
+        super().__init__()
+        self.args = [names.ID_USER, names.URL, names.ID_STORIES]
+
+    def post(self):
+        self._read_args()
+        answer = update_stories(self.data)
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
+
 
 class StoriesList(BaseRouter):
     """
