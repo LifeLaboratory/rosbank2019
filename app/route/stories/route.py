@@ -66,5 +66,8 @@ class StoriesUpdate(BaseRouter):
     def post(self):
         self._read_args()
         answer = update_stories(self.data)
-        return answer or {}
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
 
