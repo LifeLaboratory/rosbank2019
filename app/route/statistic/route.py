@@ -18,3 +18,12 @@ class Statistic(BaseRouter):
         except:
             pass
         return answer or {}
+
+
+class StatisticView(BaseRouter):
+    def get(self, id_user):
+        args = {
+            names.ID_USER: id_user
+        }
+        answer = get_statistic(args)
+        return answer
