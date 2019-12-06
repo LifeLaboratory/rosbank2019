@@ -76,9 +76,6 @@ class StoriesList(BaseRouter):
     """
     Роут работы со сторис
     """
-    def __init__(self):
-        super().__init__()
-        self.args = [names.ID_STORIES, names.ID_USER, names.STATUS, names.IS_LIKE]
 
     def get(self, id_user):
         args = {
