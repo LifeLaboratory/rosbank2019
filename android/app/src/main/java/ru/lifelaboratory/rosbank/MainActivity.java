@@ -115,17 +115,6 @@ public class MainActivity extends AppCompatActivity {
             ((LinearLayout) findViewById(R.id.to_transfer)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ServerAPI auth = MainActivity.server.create(ServerAPI.class);
-                    auth.addToStatistic(new Action()
-                            .setIdUser(MainActivity.user.getIdUser())
-                            .setIdAction(1) // переход к переводам
-                            .setPlatform("ANDROID"))
-                            .enqueue(new Callback<User>() {
-                                @Override
-                                public void onResponse(Call<User> call, Response<User> response) { }
-                                @Override
-                                public void onFailure(Call<User> call, Throwable t) { }
-                            });
                     startActivity(new Intent(MainActivity.this, TransferActivity.class));
                 }
             });
@@ -135,6 +124,25 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     startActivity(new Intent(MainActivity.this, CurrencyTransferActivity.class));
+                }
+            });
+
+            // к QR
+            ((LinearLayout) findViewById(R.id.to_qr_payment)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ServerAPI auth = MainActivity.server.create(ServerAPI.class);
+                    auth.addToStatistic(new Action()
+                            .setIdUser(MainActivity.user.getIdUser())
+                            .setIdAction(3) // переход к переводам
+                            .setPlatform("ANDROID"))
+                            .enqueue(new Callback<User>() {
+                                @Override
+                                public void onResponse(Call<User> call, Response<User> response) { }
+                                @Override
+                                public void onFailure(Call<User> call, Throwable t) { }
+                            });
+                    startActivity(new Intent(MainActivity.this, QRPaymentActivity.class));
                 }
             });
         }
