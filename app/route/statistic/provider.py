@@ -26,3 +26,16 @@ class Provider:
         order by 4 desc 
         """
         return Sql.exec(query=query, args=args)
+
+    @staticmethod
+    def get_statistic_list():
+        query = """
+        select
+          pr."id_profile",
+          pr."description",
+          array_agg(json_build_object('id_user',u."id_user", 'name', u."name") order by "name") users
+        from profile pr
+        join users u on pr."id_profile" = u."id_profile"
+        group by pr.id_profile
+        """
+        return Sql.exec(query=query)
