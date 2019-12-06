@@ -20,8 +20,8 @@ class Provider:
     @staticmethod
     def insert_status(args):
         query = """
-        insert into "step_action" ("id_stories", "id_user", "is_open", "is_view", "time") 
-    VALUES ({id_stories}, {id_user}, {is_open}, {is_view}, NOW())
+        insert into "step_action" ("id_stories", "id_user", "is_open", "is_view", "time", "is_like") 
+    VALUES ({id_stories}, {id_user}, {is_open}, {is_view}, NOW(), {is_like}::boolean)
         """
         return Sql.exec(query=query, args=args)
 
@@ -31,6 +31,7 @@ class Provider:
         update "step_action" 
           set "is_open" = {is_open}, 
               "is_view" = {is_view},
+              "is_like" = {is_like}::boolean,
               "time" = NOW()
           where "id_user" = {id_user} and "id_stories" = {id_stories}
             """

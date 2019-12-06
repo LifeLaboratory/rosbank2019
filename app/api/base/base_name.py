@@ -36,6 +36,7 @@ ID_LESSON = "id_lesson"
 ID_NOM = "id_nom"
 ID_SALES = "id_sales"
 ID_DOCUMENT = "id_document"
+IS_LIKE = 'is_like'
 ID_CATEGORY = "id_category"
 CODE = "code"
 CATEGORIES = "categories"
