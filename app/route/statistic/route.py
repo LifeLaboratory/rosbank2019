@@ -17,4 +17,7 @@ class Statistic(BaseRouter):
             answer = statistic(self.data)
         except:
             pass
-        return answer or {}
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
