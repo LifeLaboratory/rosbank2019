@@ -11,6 +11,32 @@ class Provider:
         return Sql.exec(query=query, args=args)
 
     @staticmethod
+    def select_status(args):
+        query = """
+        select True from step_action where id_user = {id_user} and id_stories = {id_stories}
+                """
+        return Sql.exec(query=query, args=args)
+
+    @staticmethod
+    def insert_status(args):
+        query = """
+        insert into "step_action" ("id_stories", "id_user", "is_open", "is_view", "time") 
+    VALUES ({id_stories}, {id_user}, {is_open}, {is_view}, NOW())
+        """
+        return Sql.exec(query=query, args=args)
+
+    @staticmethod
+    def update_status(args):
+        query = """
+        update "step_action" 
+          set "is_open" = {is_open}, 
+              "is_view" = {is_view},
+              "time" = NOW()
+          where "id_user" = {id_user} and "id_stories" = {id_stories}
+            """
+        return Sql.exec(query=query, args=args)
+
+    @staticmethod
     def insert_notifications_users(args):
         query = """
         insert into "notifications_users" ("id_notification", "id_user", "status") 
