@@ -10,3 +10,19 @@ class Provider:
       )
                 """
         return Sql.exec(query=query, args=args)
+
+    @staticmethod
+    def get_statistic(args):
+        query = """
+        select
+          ac."names",
+          count(1) filter(where "platform" = 'web') as web,
+          count(1) filter(where "platform" = 'android') as android,
+          count(*) all_request
+        from statistic_action sta
+        join action ac on ac."id_action" = sta."id_action"
+        where "id_user" = '{id_user}'
+        group by "names"
+        order by 4 desc 
+        """
+        return Sql.exec(query=query, args=args)

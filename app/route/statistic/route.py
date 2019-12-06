@@ -21,3 +21,15 @@ class Statistic(BaseRouter):
                 'Access-Control-Allow-Methods': '*',
                 'Access-Control-Allow-Headers': '*',
                 }
+
+
+class StatisticView(BaseRouter):
+    def get(self, id_user):
+        args = {
+            names.ID_USER: id_user
+        }
+        answer = get_statistic(args)
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
