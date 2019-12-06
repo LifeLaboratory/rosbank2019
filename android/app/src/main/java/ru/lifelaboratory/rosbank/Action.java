@@ -1,8 +1,12 @@
 package ru.lifelaboratory.rosbank;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Action {
 
+    @SerializedName("id_user")
     private Integer idUser;
+    @SerializedName("id_action")
     private Integer idAction;
     private String platform;
 

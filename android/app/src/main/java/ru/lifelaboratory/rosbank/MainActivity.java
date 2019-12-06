@@ -23,6 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     public static Retrofit server;
+    public static User user;
 
     {
         server = new Retrofit.Builder()
@@ -73,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
                                         .putString("password", ((EditText) findViewById(R.id.login)).getText().toString())
                                         .putInt("id", response.body().getIdUser())
                                         .apply();
+                                MainActivity.user = new User()
+                                        .setIdUser(response.body().getIdUser())
+                                        .setLogin(((EditText) findViewById(R.id.login)).getText().toString())
+                                        .setPassword(((EditText) findViewById(R.id.password)).getText().toString());
                                 startActivity(new Intent(MainActivity.this, MainActivity.class));
                             }
                         }
@@ -85,6 +90,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
+
+            MainActivity.user = new User()
+                    .setIdUser(sharedPreferences.getInt("id", -1))
+                    .setLogin(sharedPreferences.getString("login", ""))
+                    .setPassword(sharedPreferences.getString("password", ""));
+
             setContentView(R.layout.activity_main);
 
             ((ImageView) findViewById(R.id.tmp_img)).setOnClickListener(new View.OnClickListener() {
@@ -100,10 +111,30 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            // к переводам
             ((LinearLayout) findViewById(R.id.to_transfer)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    ServerAPI auth = MainActivity.server.create(ServerAPI.class);
+                    auth.addToStatistic(new Action()
+                            .setIdUser(MainActivity.user.getIdUser())
+                            .setIdAction(1) // переход к переводам
+                            .setPlatform("ANDROID"))
+                            .enqueue(new Callback<User>() {
+                                @Override
+                                public void onResponse(Call<User> call, Response<User> response) { }
+                                @Override
+                                public void onFailure(Call<User> call, Throwable t) { }
+                            });
                     startActivity(new Intent(MainActivity.this, TransferActivity.class));
+                }
+            });
+
+            // к конвертированию
+            ((LinearLayout) findViewById(R.id.to_currency_transfer)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, CurrencyTransferActivity.class));
                 }
             });
         }
