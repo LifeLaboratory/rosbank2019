@@ -20,6 +20,15 @@ class Provider:
         return Sql.exec(query=query, args=args)
 
     @staticmethod
+    def stories_profile(args):
+        query = """
+        select stories.* from users 
+        join stories on stories.id_user = users.id_user
+        where id_profile = {id_profile}
+        """
+        return Sql.exec(query=query, args=args)
+
+    @staticmethod
     def delete_images(args):
         query = """
         delete from images where id_stories = {id_stories}

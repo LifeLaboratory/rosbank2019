@@ -24,6 +24,12 @@ def insert_stories(args):
     return 'OK'
 
 
+def stories_profile(args):
+    provider = Provider()
+    answer = provider.stories_profile(args)
+    return answer
+
+
 def update_stories(args):
     provider = Provider()
     answer = provider.update_stories(args)
