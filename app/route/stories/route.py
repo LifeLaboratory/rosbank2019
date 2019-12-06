@@ -15,7 +15,10 @@ class Stories(BaseRouter):
     def post(self):
         self._read_args()
         answer = publicate_storie(self.data)
-        return answer or {}
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
 
 
 class StoriesView(BaseRouter):
@@ -29,7 +32,10 @@ class StoriesView(BaseRouter):
     def post(self):
         self._read_args()
         answer = change_status(self.data)
-        return answer or {}
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
 
 
 class StoriesInsert(BaseRouter):
@@ -43,5 +49,8 @@ class StoriesInsert(BaseRouter):
     def post(self):
         self._read_args()
         answer = insert_stories(self.data)
-        return answer or {}
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
 
