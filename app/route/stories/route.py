@@ -30,3 +30,18 @@ class StoriesView(BaseRouter):
         self._read_args()
         answer = change_status(self.data)
         return answer or {}
+
+
+class StoriesInsert(BaseRouter):
+    """
+    Роут работы со сторис
+    """
+    def __init__(self):
+        super().__init__()
+        self.args = [names.ID_USER, names.URL]
+
+    def post(self):
+        self._read_args()
+        answer = insert_stories(self.data)
+        return answer or {}
+

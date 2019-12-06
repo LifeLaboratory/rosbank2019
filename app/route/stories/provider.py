@@ -11,6 +11,23 @@ class Provider:
         return Sql.exec(query=query, args=args)
 
     @staticmethod
+    def insert_stories(args):
+        query = """
+        insert into "stories" ("id_user", "id_creator")
+        VALUES ({id_user}, {id_user})
+        returning id_stories 
+        """
+        return Sql.exec(query=query, args=args)
+
+    @staticmethod
+    def insert_image(args):
+        query = """
+        insert into "images" ("id_stories", "url", position)
+        VALUES ({id_stories}, '{url}', {position}) 
+        """
+        return Sql.exec(query=query, args=args)
+
+    @staticmethod
     def select_status(args):
         query = """
         select True from step_action where id_user = {id_user} and id_stories = {id_stories}

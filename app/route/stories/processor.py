@@ -12,6 +12,17 @@ def publicate_storie(args):
     return 'OK'
 
 
+def insert_stories(args):
+    provider = Provider()
+    answer = provider.insert_stories(args)[0]
+    args['id_stories'] = answer.get('id_stories')
+    args['position'] = 0
+    for image in args.get('url'):
+        args['url'] = image
+        provider.insert_image(args)
+    return 'OK'
+
+
 def change_status(args):
     provider = Provider()
     status = provider.select_status(args)
