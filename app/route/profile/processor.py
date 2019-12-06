@@ -6,6 +6,7 @@ def get_profile(args):
     answer = provider.get_profile(args)[0]
     return answer
 
+
 def update_profile(args):
     provider = Provider()
     answer = provider.update_profile(args)

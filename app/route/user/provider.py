@@ -5,7 +5,7 @@ class Provider:
     @staticmethod
     def auth_user(args):
         query = """
-    select "@user"
+    select "id_user"
     from "users"
     where ("login" = '{login}'
       and "password" = '{password}'
@@ -27,22 +27,19 @@ class Provider:
     @staticmethod
     def register_user(args):
         query = """
-    insert into "users"("login", "password", "fio", "description", "photo", "email", "number") 
+    insert into "users"("login", "password", "is_admin", "id_profile") 
     VALUES ('{login}', 
     '{password}', 
-    '{fio}',
-    '{description}',
-    '{photo}', 
-    '{email}', 
-    '{number}')
-    returning "@user"
+    '{is_admin}',
+    '{id_profile}')
+    returning "id_user"
     """
         return Sql.exec(query=query, args=args)
 
     @staticmethod
     def get_user_id(args):
         query = """
-    select "@user"
+    select "id_user"
     from "users"
     where "login" = '{login}'
                 """
@@ -53,6 +50,6 @@ class Provider:
         query = """
             select *
             from "users"
-            where "@user" = '{@login}'
+            where "id_user" = '{id_user}'
                         """
         return Sql.exec(query=query, args=args)
