@@ -19,7 +19,7 @@
             $scope.profile = [];
             $http({
                 method: 'GET',
-                url: "http://e978976c.ngrok.io/api/profile"
+                url: "http://100.64.17.109:13451/api/statistic"
             }).then(function (value) {
                 console.log(value);
                 $scope.profile = value.data;
@@ -30,6 +30,14 @@
     </script>
     <title>Главная</title>
 </head>
+<style>
+    .sample-show-hide {
+        transition: all linear 0.5s;
+    }
+    .sample-show-hide.ng-hide {
+        opacity: 0;
+    }
+</style>
 <body id="home" ng-app="Index" ng-controller="IndexController">
 <div class="body-wrapper">
     <header class="page-header">
@@ -58,15 +66,25 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 text-center offset-md-2">
-                    <h2 class="section-heading wow fadeInUp">Профили пользователей</h2>
+                    <h2 class="section-heading wow fadeInUp">Пользователи</h2>
                     <md-card ng-repeat="user in profile" md-theme-watch>
-                        <md-card-title>
+                        <md-card-title ng-model="checked" ng-click="checked = !checked;">
                             <md-card-title-text>
-                                <span class="md-headline">Профиль #{{user.id_profile}}</span>
+                                <span class="md-headline">Профиль #{{user.id_profile}}: "{{user.description}}"</span>
                             </md-card-title-text>
                         </md-card-title>
-                        <md-card-content>
-                            {{user.description}}
+                        <md-card-content class="content-area sample-show-hide" ng-show="checked">
+                            <md-list>
+                                <md-list-item class="md-3-line" ng-repeat="u in user.users">
+                                    <div class="md-list-item-text">
+                                        <h3>{{u.name}}</h3>
+                                        <h4>Идентификатор: {{u.id_user}}</h4>
+<!--                                           <p>{{item.notes}}</p>-->
+                                    </div>
+                                    <md-button class="md-secondary">Подробнее</md-button>
+                                    <md-divider ng-if="!$last"></md-divider>
+                                </md-list-item>
+                            </md-list>
                         </md-card-content>
                         <md-card-actions layout="row" layout-align="end center">
                             <md-button class="md-raised">Удалить</md-button>
