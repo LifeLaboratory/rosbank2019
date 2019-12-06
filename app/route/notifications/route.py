@@ -15,14 +15,20 @@ class Notification(BaseRouter):
     def post(self):
         self._read_args()
         answer = add_notification(self.data)
-        return answer or {}
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
 
     def put(self, id_user):
         self._read_args()
         if id_user:
             self.data.update({names.ID_USER: id_user})
         answer = update_profile(self.data)
-        return answer or {}
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
 
 
 class Notification_get(BaseRouter):
@@ -38,4 +44,7 @@ class Notification_get(BaseRouter):
             names.ID_USER: id_user
         }
         answer = get_notification(args)
-        return answer or {}
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
