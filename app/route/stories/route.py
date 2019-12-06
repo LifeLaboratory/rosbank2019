@@ -45,3 +45,17 @@ class StoriesInsert(BaseRouter):
         answer = insert_stories(self.data)
         return answer or {}
 
+
+class StoriesUpdate(BaseRouter):
+    """
+    Роут работы со сторис
+    """
+    def __init__(self):
+        super().__init__()
+        self.args = [names.ID_USER, names.URL, names.ID_STORIES]
+
+    def post(self):
+        self._read_args()
+        answer = update_stories(self.data)
+        return answer or {}
+

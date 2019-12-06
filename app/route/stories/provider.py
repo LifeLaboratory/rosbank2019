@@ -20,6 +20,13 @@ class Provider:
         return Sql.exec(query=query, args=args)
 
     @staticmethod
+    def delete_images(args):
+        query = """
+        delete from images where id_stories = {id_stories}
+        """
+        return Sql.exec(query=query, args=args)
+
+    @staticmethod
     def insert_image(args):
         query = """
         insert into "images" ("id_stories", "url", position)
@@ -51,6 +58,15 @@ class Provider:
               "is_like" = {is_like}::boolean,
               "time" = NOW()
           where "id_user" = {id_user} and "id_stories" = {id_stories}
+            """
+        return Sql.exec(query=query, args=args)
+
+    @staticmethod
+    def update_stories(args):
+        query = """
+        update "stories" 
+          set "id_creator" = {id_user}
+          where "id_stories" = {id_stories}
             """
         return Sql.exec(query=query, args=args)
 

@@ -23,6 +23,18 @@ def insert_stories(args):
     return 'OK'
 
 
+def update_stories(args):
+    provider = Provider()
+    answer = provider.update_stories(args)
+    answer = provider.delete_images(args)
+    args['position'] = 0
+    for image in ['image2', 'image3']:
+        args['url'] = image
+        provider.insert_image(args)
+        args['position'] += 1
+    return 'OK'
+
+
 def change_status(args):
     provider = Provider()
     status = provider.select_status(args)
