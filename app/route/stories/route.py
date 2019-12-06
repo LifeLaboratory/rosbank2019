@@ -36,7 +36,6 @@ class StoriesView(BaseRouter):
                 'Access-Control-Allow-Methods': '*',
                 'Access-Control-Allow-Headers': '*',
                 }
-        return answer or {}
 
 
 class StoriesInsert(BaseRouter):
