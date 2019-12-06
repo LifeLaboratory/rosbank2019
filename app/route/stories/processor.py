@@ -20,6 +20,7 @@ def insert_stories(args):
     for image in args.get('url'):
         args['url'] = image
         provider.insert_image(args)
+        args['position'] += 1
     return 'OK'
 
 
