@@ -28,7 +28,7 @@ def update_stories(args):
     answer = provider.update_stories(args)
     answer = provider.delete_images(args)
     args['position'] = 0
-    for image in ['image2', 'image3']:
+    for image in args.get('url'):
         args['url'] = image
         provider.insert_image(args)
         args['position'] += 1
