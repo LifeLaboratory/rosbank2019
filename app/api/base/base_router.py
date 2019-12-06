@@ -35,5 +35,8 @@ class BaseRouter(Resource):
         return "OK", 200, {'Access-Control-Allow-Origin': '*'}
 
     def options(self):
-        return "OK", 200, {'Access-Control-Allow-Origin': '*'}
+        return "OK", 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
 
