@@ -5,9 +5,6 @@ SUCCESS = "Success"
 ANSWER = "Answer"
 SESSION = 'session'
 
-NAME_ACTION = "name_action"
-ID_ACTION = "id_action"
-NAME_PLATFORM = "platform"
 STATS_POSTS_ID = "@статистика_постов"
 STATS_POSTS = "статистика_постов"
 DESCRIPTION = "описание"
