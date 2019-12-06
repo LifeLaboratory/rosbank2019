@@ -10,10 +10,8 @@ class Profile(BaseRouter):
         super().__init__()
         self.args = [names.FIO, names.DESCRIPTION, names.PHOTO, names.STATUS, names.TITLE]
 
-    def get(self, id_user):
-        args = {
-            names.ID_USER: id_user
-        }
+    def get(self):
+        args = {}
         answer = get_profile(args)
         return answer or {}
 
