@@ -4,6 +4,25 @@ from app.route.stories.processor import *
 from app.api.base.base_router import BaseRouter
 
 
+class StoriesProfile(BaseRouter):
+    """
+    Роут работы со сторис
+    """
+    def __init__(self):
+        super().__init__()
+        self.args = [names.ID_STORIES, names.ID_USER, names.URL, names.ID_PROFILE]
+
+    def get(self, id_profile):
+        args = {
+            names.ID_PROFILE: id_profile
+        }
+        answer = stories_profile(args)
+        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
+                                   'Access-Control-Allow-Methods': '*',
+                                   'Access-Control-Allow-Headers': '*',
+                                   }
+
+
 class Stories(BaseRouter):
     """
     Роут работы со сторис
