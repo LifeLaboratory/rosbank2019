@@ -29,6 +29,17 @@
                 console.log(reason);
             });
 
+            $scope.stories = [];
+            $http({
+                method: 'GET',
+                url: "http://100.64.17.109:13451/api/stories"
+            }).then(function (value) {
+                console.log(value);
+                $scope.stories = value.data;
+            }, function (reason) {
+                console.log(reason);
+            });
+
             $scope.showHistory = function(ev, id_user) {
                 $http({
                     method: 'GET',
@@ -226,6 +237,16 @@
                 <div class="col-md-8 text-center offset-md-2">
                     <h2 class="section-heading wow fadeInUp">Истории</h2>
                     <center><md-button class="md-secondary" ng-click="showAddDialog($event)">Добавить</md-button></center>
+                    <md-card ng-repeat="story in stories" md-theme-watch>
+                        <md-card-title ng-model="checked" ng-click="checked = !checked;">
+                            <md-card-title-text>
+                                <span class="md-headline">История #{{story.id_stories}}</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                        <md-card-content class="content-area sample-show-hide" ng-show="checked">
+                            <img ng-repeat="img in story.image" src="{{img}}" height="150px" style="margin: 15px;"/>
+                        </md-card-content>
+                    </md-card>
                 </div>
             </div>
         </div>
