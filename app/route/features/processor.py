@@ -16,6 +16,7 @@ def insert_feature(data):
     answer = provider.insert_feature(data)
     data['url'] = ''
     data['status'] = ''
+    data['id_stories'] = None
     answer = provider_not.insert_notification(data)[0]
     data[names.ID_NOTIFICATION] = answer.get(names.ID_NOTIFICATION)
     admin_ids = get_admins(data)
