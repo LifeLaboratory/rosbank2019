@@ -31,7 +31,7 @@ class Notification(BaseRouter):
                 }
 
 
-class Notification_get(BaseRouter):
+class NotificationGet(BaseRouter):
     """
     Роут работы с уведомлениями
     """

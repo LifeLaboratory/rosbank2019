@@ -1,5 +1,4 @@
 from app.route.stories.provider import Provider
-from app.route.notifications import provider as provider_notifications
 from app.api.base import base_name as names
 from app.api.helper import get_id_user_by_profile, get_id_user_by_profiles
 
