@@ -58,6 +58,8 @@ def change_status(args):
         answer = provider.update_status(args)
     else:
         answer = provider.insert_status(args)
+    if args.get(names.IS_LIKE):
+        answer = provider.update_like(args)
     return 'OK'
 
 
