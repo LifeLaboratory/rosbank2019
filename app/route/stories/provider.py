@@ -113,7 +113,8 @@ class Provider:
           array_agg(img."url" order by position desc) as image
         from images img
         join stories str on img."id_stories" = str."id_stories"
-        where "id_user" = '{id_user}'
+        join publicated_stories ps on ps.id_stories = str.id_stories
+        where str."id_user" = '{id_user}'
         group by img."id_stories"
         """
         return Sql.exec(query=query, args=args)
