@@ -11,10 +11,7 @@ class Features(BaseRouter):
             names.ID_USER: id_user
         }
         answer = get_feature_user(args)
-        return answer, 200, {'Access-Control-Allow-Origin': '*',
-                             'Access-Control-Allow-Methods': '*',
-                             'Access-Control-Allow-Headers': '*',
-                             }
+        return answer, 200, names.HEADER
 
 
 class FeaturesAdd(BaseRouter):
@@ -25,7 +22,4 @@ class FeaturesAdd(BaseRouter):
     def post(self):
         self._read_args()
         answer = insert_feature(self.data)
-        return answer, 200, {'Access-Control-Allow-Origin': '*',
-                             'Access-Control-Allow-Methods': '*',
-                             'Access-Control-Allow-Headers': '*',
-                             }
+        return answer, 200, names.HEADER

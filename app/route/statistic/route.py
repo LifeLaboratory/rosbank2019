@@ -17,17 +17,11 @@ class Statistic(BaseRouter):
             answer = statistic(self.data)
         except:
             pass
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer or {}, 200, names.HEADER
 
     def get(self):
         answer = get_statistic_list()
-        return answer, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer, 200, names.HEADER
 
 
 class StatisticView(BaseRouter):
@@ -37,7 +31,4 @@ class StatisticView(BaseRouter):
             names.ID_USER: id_user
         }
         answer = get_statistic(args)
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer or {}, 200, names.HEADER

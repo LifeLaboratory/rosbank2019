@@ -1,4 +1,3 @@
-from app.api.base import base_name as names
 from app.api.base.base_sql import Sql
 
 

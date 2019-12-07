@@ -175,3 +175,9 @@ print_form_fields = [
     tel_number,
     email
 ]
+
+
+HEADER = {'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': '*',
+          'Access-Control-Allow-Headers': '*',
+          }

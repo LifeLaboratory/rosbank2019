@@ -1,9 +1,5 @@
 from app.route.notifications.route import Notification, Notification_get
-from app.route.stories.route import Stories, StoriesList
-from app.route.stories.route import StoriesStatus
-from app.route.stories.route import StoriesInsert
-from app.route.stories.route import StoriesProfile
-from app.route.stories.route import StoriesUpdate
+from app.route.stories.route import *
 from app.route.user.route import Auth
 from app.route.profile.route import Profile
 from app.route.statistic.route import Statistic, StatisticView

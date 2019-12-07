@@ -16,10 +16,7 @@ class StoriesProfile(BaseRouter):
         self._read_args()
         self.data[names.ID_PROFILE] = id_profile
         answer = stories_profile(self.data)
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                                   'Access-Control-Allow-Methods': '*',
-                                   'Access-Control-Allow-Headers': '*',
-                                   }
+        return answer or {}, 200, names.HEADER
 
 
 class Stories(BaseRouter):
@@ -33,18 +30,12 @@ class Stories(BaseRouter):
     def post(self):
         self._read_args()
         answer = publicate_storie(self.data)
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer or {}, 200, names.HEADER
 
     def get(self):
         self._read_args()
         answer = get_all_stories(self.data)
-        return answer, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer, 200, names.HEADER
 
 
 class StoriesStatus(BaseRouter):
@@ -58,10 +49,7 @@ class StoriesStatus(BaseRouter):
     def post(self):
         self._read_args()
         answer = change_status(self.data)
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer or {}, 200, names.HEADER
 
 
 class StoriesInsert(BaseRouter):
@@ -75,10 +63,7 @@ class StoriesInsert(BaseRouter):
     def post(self):
         self._read_args()
         answer = insert_stories(self.data)
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer or {}, 200, names.HEADER
 
 
 class StoriesUpdate(BaseRouter):
@@ -92,10 +77,7 @@ class StoriesUpdate(BaseRouter):
     def post(self):
         self._read_args()
         answer = update_stories(self.data)
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer or {}, 200, names.HEADER
 
 
 class StoriesList(BaseRouter):
@@ -111,7 +93,4 @@ class StoriesList(BaseRouter):
         self._read_args()
         self.data[names.ID_USER] = id_user
         answer = get_stories_list(self.data)
-        return answer, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer, 200, names.HEADER
