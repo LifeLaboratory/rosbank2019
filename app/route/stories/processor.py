@@ -16,7 +16,7 @@ def publicate_storie(args):
         id_users = get_id_user_by_profile(args)
     for id_user in id_users:
         args[names.ID_USER] = id_user.get(names.ID_USER)
-        answer = provider.publicate_storie(args)
+        provider.publicate_storie(args)
     return names.OK
 
 
@@ -56,13 +56,14 @@ def update_stories(args):
     :return:
     """
     provider = Provider()
-    answer = provider.update_stories(args)
-    answer = provider.delete_images(args)
-    args['position'] = 0
-    for image in args.get('url'):
-        args['url'] = image
+    provider.update_stories(args)
+    provider.delete_images(args)
+    args[names.POSITION] = 0
+    for i in range(len(args.get(names.URL))):
+        args[names.URL] = args.get(names.URL)[i]
+        args[names.DESCRIPTION] = args.get(names.DESCRIPTION)[i]
         provider.insert_image(args)
-        args['position'] += 1
+        args[names.POSITION] += 1
     return names.OK
 
 
@@ -74,18 +75,18 @@ def change_status(args):
     """
     provider = Provider()
     status = provider.select_status(args)
-    args['is_open'] = args['status'] == 'open'
-    args['is_view'] = args['status'] == 'view'
-    if args.get('id_notification') is not None:
-        args['active'] = False if args['is_view'] else True
-        answer = provider.update_notifications_user(args)
-    if args.get('status') is not None:
+    args[names.IS_OPEN] = args[names.STATUS] == 'open'
+    args[names.IS_VIEW] = args[names.STATUS] == 'view'
+    if args.get(names.ID_NOTIFICATION) is not None:
+        args[names.ACTIVE] = False if args[names.IS_VIEW] else True
+        provider.update_notifications_user(args)
+    if args.get(names.STATUS) is not None:
         if status:
-            answer = provider.update_status(args)
+            provider.update_status(args)
         else:
-            answer = provider.insert_status(args)
+            provider.insert_status(args)
     if args.get(names.IS_LIKE):
-        answer = provider.update_like(args)
+        provider.update_like(args)
     return names.OK
 
 

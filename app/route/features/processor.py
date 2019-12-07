@@ -23,7 +23,7 @@ def insert_feature(data):
     """
     provider = Provider()
     provider_not = ProviderNot()
-    answer = provider.insert_feature(data)
+    provider.insert_feature(data)
     answer = provider_not.insert_notification(data)[0]
     data[names.ID_NOTIFICATION] = answer.get(names.ID_NOTIFICATION)
     admin_ids = get_admins(data)
