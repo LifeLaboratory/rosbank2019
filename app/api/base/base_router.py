@@ -20,7 +20,7 @@ class BaseRouter(Resource):
             self._parser.add_argument(arg)
         self.data = self._parser.parse_args()
         if reqparse.request.data:
-            self.data[names.movement] = json.loads(reqparse.request.data.decode()).get(names.movement)
+            self.data[names.URL] = json.loads(reqparse.request.data).get(names.URL)
 
     def get(self):
         return "OK", 200, {'Access-Control-Allow-Origin': '*'}
