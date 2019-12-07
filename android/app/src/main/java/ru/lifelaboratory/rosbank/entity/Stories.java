@@ -9,6 +9,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Сущность сторис
+ * @author Boris Bockarev <Boris-Bochkaryov@yandex.ru>
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

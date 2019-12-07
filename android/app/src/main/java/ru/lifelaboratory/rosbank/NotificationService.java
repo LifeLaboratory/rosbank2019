@@ -15,25 +15,34 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.lifelaboratory.rosbank.entity.Notification;
+import ru.lifelaboratory.rosbank.util.Constants;
 
+/**
+ * Фоновый сервис, предназначенный для уведомления
+ * @author Boris Bockarev <Boris-Bochkaryov@yandex.ru>
+ * @see Notification
+ * @see Service
+ */
 public class NotificationService extends Service {
 
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // отдельный поток для постоянного взаимодействия с сервером
         new Thread(new Runnable() {
             public void run() {
                 while(true) {
-                    if (MainActivity.server != null) {
+                    if (MainActivity.server != null) { // сервис не работает, если пользователь вывел приложение из памяти
+                        // получение уведомлений
                         ServerAPI notification = MainActivity.server.create(ServerAPI.class);
                         notification.getNotification(MainActivity.user.getIdUser())
                                 .enqueue(new Callback<List<Notification>>() {
                                     @Override
                                     public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {
-                                        Log.e("ROSBANK2019", String.valueOf(response.body().size()));
                                         if (response.body() != null) {
                                             for (int i = 0; i < response.body().size(); i++) {
-                                                Log.e("ROSBANK2019", response.body().get(i).getName());
+                                                Log.d(Constants.LOG_TAG, "Текст уведомления: " + response.body().get(i).getName());
                                                 Intent toMainActivity = new Intent(getApplicationContext(), MainActivity.class)
-                                                        .setAction("lifelaboratory.from_notification_service");
+                                                        .setAction(Constants.INTENT_ACTION);
+                                                // если тип уведомления - интерактивный туториал
                                                 if (response.body().get(i).getType() != null && response.body().get(i).getType().equals(2)) {
                                                     toMainActivity.putExtra("TYPE", 2);
                                                     StringBuilder image = new StringBuilder();
@@ -45,6 +54,8 @@ public class NotificationService extends Service {
                                                     toMainActivity.putExtra("image", image.toString());
                                                     toMainActivity.putExtra("description", description.toString());
                                                 }
+
+                                                // сборка уведомления
                                                 PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0,
                                                         toMainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
                                                 NotificationCompat.Builder builder =
@@ -64,13 +75,13 @@ public class NotificationService extends Service {
 
                                     @Override
                                     public void onFailure(Call<List<Notification>> call, Throwable t) {
-                                        Log.e("ROSBANK2019", t.getMessage());
+                                        Log.e(Constants.LOG_TAG, "Error from NotificationService: " + t.getMessage());
                                     }
                                 });
                         try {
                             TimeUnit.SECONDS.sleep(10);
                         } catch (InterruptedException e) {
-                            Log.e("ROSBANK2019", e.getMessage());
+                            Log.e(Constants.LOG_TAG, e.getMessage());
                         }
                     } else {
                         break;

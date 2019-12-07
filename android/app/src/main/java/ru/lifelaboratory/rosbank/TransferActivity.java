@@ -12,17 +12,27 @@ import retrofit2.Response;
 import ru.lifelaboratory.rosbank.entity.Action;
 import ru.lifelaboratory.rosbank.entity.User;
 
+/**
+ * Класс для экрана "Переводы"
+ * @author Boris Bockarev <Boris-Bochkaryov@yandex.ru>
+ */
 public class TransferActivity extends AppCompatActivity {
 
+    /**
+     * Создание активности
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transfer);
 
 
+        // кнопка "Конвертировать"
         ((Button) findViewById(R.id.btn_send)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // логирование действия пользователя
                 ServerAPI auth = MainActivity.server.create(ServerAPI.class);
                 Action action = new Action();
                 action.setIdUser(MainActivity.user.getIdUser());

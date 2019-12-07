@@ -33,13 +33,21 @@ import ru.lifelaboratory.rosbank.entity.Action;
 import ru.lifelaboratory.rosbank.entity.Stories;
 import ru.lifelaboratory.rosbank.entity.User;
 import ru.lifelaboratory.rosbank.entity.ViewStories;
+import ru.lifelaboratory.rosbank.util.Constants;
 
+/**
+ * Класс для экрана "Профиль пользователя"/"Авторизация пользователя"
+ * @author Boris Bockarev <Boris-Bochkaryov@yandex.ru>
+ */
 public class MainActivity extends AppCompatActivity {
 
+    // Общедоступный интерфейс доступа к API сервера
     public static Retrofit server;
+    // Общедоступный для приложения профильм пользователя
     public static User user;
 
     {
+        // инициализация соединения с сервером
         server = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("http://100.64.17.109:13451/")
@@ -47,21 +55,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     static public Integer[] idResources = null;
-
     public String[] resources = null;
 
+    /**
+     * Метод создания активности
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("ROSBANK2019", Context.MODE_PRIVATE);
-        if (sharedPreferences.getInt("id", -1) == -1) {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.LOG_TAG, Context.MODE_PRIVATE);
+        // если пользователь не авторизован
+        if (sharedPreferences.getInt("id", Integer.MIN_VALUE) == Integer.MIN_VALUE) {
+            // отображение экрана с формой авторизации
             setContentView(R.layout.activity_main_without_login);
 
+            //кнопка авторизации
             ((Button) findViewById(R.id.btn_auth)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     ServerAPI auth = MainActivity.server.create(ServerAPI.class);
                     User user = new User();
                     user.setLogin(((EditText) findViewById(R.id.login)).getText().toString());
@@ -74,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
                                         Toast.makeText(MainActivity.this, "Неверный логин или пароль", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(MainActivity.this, "Авторизация удачна", Toast.LENGTH_SHORT).show();
-                                        SharedPreferences sharedPreferences = getSharedPreferences("ROSBANK2019", Context.MODE_PRIVATE);
+                                        // сохранение пользователя в хранилище
+                                        SharedPreferences sharedPreferences = getSharedPreferences(Constants.LOG_TAG, Context.MODE_PRIVATE);
                                         sharedPreferences.edit()
                                                 .putString("login", ((EditText) findViewById(R.id.login)).getText().toString())
                                                 .putString("password", ((EditText) findViewById(R.id.login)).getText().toString())
@@ -90,12 +104,13 @@ public class MainActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(Call<User> call, Throwable t) {
-
+                                    Log.e(Constants.LOG_TAG, "Error from MainActivity (without authorization): " + t.getMessage());
                                 }
                             });
                 }
             });
-        } else {
+        } else { // если пользователь авторизован
+            // запускаем сервис уведомлений
             startService(new Intent(MainActivity.this, NotificationService.class));
 
             MainActivity.user = new User();
@@ -106,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
 
             ServerAPI auth = MainActivity.server.create(ServerAPI.class);
+            // получение списка сторис, предназначенных пользователю
             auth.getStories(MainActivity.user.getIdUser())
                     .enqueue(new Callback<List<Stories>>() {
                         @Override
@@ -115,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                                 List<Integer> tmpInteger = new ArrayList<>();
                                 for (int i = 0; i < response.body().size(); i++) {
                                     for (int j = 0; j < response.body().get(i).getImage().size(); j++) {
-                                        Log.e("ROSBNAK2019", response.body().get(i).getImage().get(j));
+                                        Log.e(Constants.LOG_TAG, response.body().get(i).getImage().get(j));
                                         ImageView img = new ImageView(MainActivity.this);
                                         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
                                         lp.setMargins(32, 32, 32, 32);
@@ -140,12 +156,15 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<List<Stories>> call, Throwable t) {
+                            Log.e(Constants.LOG_TAG, "Error from MainActivity (with authorization): " + t.getMessage());
                         }
                     });
 
+            // нажатие на список с историями (сторис)
             ((LinearLayout) findViewById(R.id.list_stories)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    // отправка статуса пользователя по просмотрам сторис
                     ServerAPI auth = MainActivity.server.create(ServerAPI.class);
                     for (int i = 0; i < idResources.length; i++) {
                         ViewStories viewStories = new ViewStories();
@@ -155,15 +174,15 @@ public class MainActivity extends AppCompatActivity {
                         auth.sendView(viewStories)
                                 .enqueue(new Callback<Object>() {
                                     @Override
-                                    public void onResponse(Call<Object> call, Response<Object> response) {
-                                    }
-
+                                    public void onResponse(Call<Object> call, Response<Object> response) { }
                                     @Override
                                     public void onFailure(Call<Object> call, Throwable t) {
-                                        Log.e("ROSBANK2019", t.getMessage());
+                                        Log.e(Constants.LOG_TAG, "Error from MainActivity (send info): " + t.getMessage());
                                     }
                                 });
                     }
+
+                    // отображение сторис
                     Intent a = new Intent(MainActivity.this, StatusStoriesActivity.class);
                     a.putExtra(StatusStoriesActivity.STATUS_RESOURCES_KEY, resources);
                     a.putExtra(StatusStoriesActivity.STATUS_DURATION_KEY, 3000L);
@@ -174,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            // к переводам
+            // к экрану "Переводы"
             ((LinearLayout) findViewById(R.id.to_transfer)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -182,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            // к конвертированию
+            // к экрану "Конвертирование"
             ((LinearLayout) findViewById(R.id.to_currency_transfer)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -190,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            // к QR
+            // к экрану "Оплата по QR-коду" с сохранением действия на сервере
             ((LinearLayout) findViewById(R.id.to_qr_payment)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -202,21 +221,19 @@ public class MainActivity extends AppCompatActivity {
                     auth.addToStatistic(action)
                             .enqueue(new Callback<User>() {
                                 @Override
-                                public void onResponse(Call<User> call, Response<User> response) {
-                                }
-
+                                public void onResponse(Call<User> call, Response<User> response) { }
                                 @Override
-                                public void onFailure(Call<User> call, Throwable t) {
-                                }
+                                public void onFailure(Call<User> call, Throwable t) { }
                             });
                     startActivity(new Intent(MainActivity.this, QRPaymentActivity.class));
                 }
             });
 
+            // если произошел переход из web-интерфейса
             Intent intent = getIntent();
             String link = intent.getDataString();
             if (link != null) {
-                Log.e("ROSBANK2019", link);
+                Log.e(Constants.LOG_TAG, link);
                 if (link.split("/")[link.split("/").length - 1].equals("convert")) {
                     startActivity(new Intent(MainActivity.this, CurrencyTransferActivity.class));
                 } else if(link.split("/")[link.split("/").length - 1].equals("transfer")) {
@@ -238,34 +255,34 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String action = intent.getAction();
         if (action != null) {
-            Log.e("ROSBANK2019", action);
+            Log.e(Constants.LOG_TAG, action);
+            // если пришли из сторис
             if (action.equals("android.intent.action.MAIN")) {
                 ServerAPI auth = MainActivity.server.create(ServerAPI.class);
                 if (idResources != null)
-                    for (int i = 0; i < idResources.length; i++) {
+                    for (Integer idResource : idResources) {
                         ViewStories viewStories = new ViewStories();
                         viewStories.setIdUser(MainActivity.user.getIdUser());
-                        viewStories.setIdStories(idResources[i]);
+                        viewStories.setIdStories(idResource);
                         viewStories.setStatus("view");
                         auth.sendView(viewStories)
                                 .enqueue(new Callback<Object>() {
                                     @Override
                                     public void onResponse(Call<Object> call, Response<Object> response) { }
-
                                     @Override
                                     public void onFailure(Call<Object> call, Throwable t) {
-                                        Log.e("ROSBANK2019", t.getMessage());
+                                        Log.e(Constants.LOG_TAG, "Error from MainActivity (onResume): " + t.getMessage());
                                     }
                                 });
                     }
-            } else if(action.equals("lifelaboratory.from_notification_service")) {
-
-                if (intent.getIntExtra("TYPE", -1) == 2) {
+            } else if(action.equals("lifelaboratory.from_notification_service")) { // если пришли из уведомления
+                if (intent.getIntExtra("TYPE", Integer.MIN_VALUE) == 2) {
                     Collections.addAll(image, intent.getStringExtra("image").split(";"));
                     Collections.addAll(description, intent.getStringExtra("description").split(";"));
 
                     int resID = getResources().getIdentifier(image.get(0), "id", getPackageName());
                     if (findViewById(resID) != null) {
+                        // отображение подсказок на экране
                         new Tooltip.Builder(findViewById(resID))
                                 .setBackgroundColor(Color.parseColor("#000000"))
                                 .setTextColor(Color.parseColor("#ffffff"))
@@ -286,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
                                                 descriptionString.append(description.get(j)).append(";");
                                             }
                                             startActivity(new Intent(MainActivity.this, MainActivity.class)
-                                                    .setAction("lifelaboratory.from_notification_service")
+                                                    .setAction(Constants.INTENT_ACTION)
                                                     .putExtra("TYPE", 2)
                                                     .putExtra("image", imageString.toString())
                                                     .putExtra("description", descriptionString.toString()));

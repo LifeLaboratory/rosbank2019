@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Сущность для авторизации
+ * @author Boris Bockarev <Boris-Bochkaryov@yandex.ru>
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter

@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Сущность статуса просмотра сторис
+ * @author Boris Bockarev <Boris-Bochkaryov@yandex.ru>
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
