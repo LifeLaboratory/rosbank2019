@@ -66,8 +66,8 @@ class Provider:
         :return:
         """
         query = """
-  insert into images ("id_stories", "url", "position")
-  VALUES ({id_stories}, '{url}', {position})
+  insert into images ("id_stories", "url", "position", "description")
+  VALUES ({id_stories}, '{url}', {position}, '{description}')
   """
         return Sql.exec(query=query, args=args)
 
