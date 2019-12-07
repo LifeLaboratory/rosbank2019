@@ -15,3 +15,17 @@ class Features(BaseRouter):
                              'Access-Control-Allow-Methods': '*',
                              'Access-Control-Allow-Headers': '*',
                              }
+
+
+class FeaturesAdd(BaseRouter):
+    def __init__(self):
+        super().__init__()
+        self.args = [names.NAME]
+
+    def post(self):
+        self._read_args()
+        answer = insert_feature(self.data)
+        return answer, 200, {'Access-Control-Allow-Origin': '*',
+                             'Access-Control-Allow-Methods': '*',
+                             'Access-Control-Allow-Headers': '*',
+                             }
