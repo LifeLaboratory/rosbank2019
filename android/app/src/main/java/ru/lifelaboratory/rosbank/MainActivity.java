@@ -5,14 +5,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.rahuljanagouda.statusstories.StatusStoriesActivity;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,21 +35,21 @@ public class MainActivity extends AppCompatActivity {
     {
         server = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://dc991e59.ngrok.io/")
+                .baseUrl("http://100.64.17.109:13451/")
                 .build();
     }
 
-    private final String[] resources = new String[]{
-            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00001.jpg?alt=media&token=460667e4-e084-4dc5-b873-eefa028cec32",
-            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00002.jpg?alt=media&token=e8e86192-eb5d-4e99-b1a8-f00debcdc016",
-            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00004.jpg?alt=media&token=af71cbf5-4be3-4f8a-8a2b-2994bce38377",
-            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00005.jpg?alt=media&token=7d179938-c419-44f4-b965-1993858d6e71",
-            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00006.jpg?alt=media&token=cdd14cf5-6ed0-4fb7-95f5-74618528a48b",
-            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00007.jpg?alt=media&token=98524820-6d7c-4fb4-89b1-65301e1d6053",
-            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00008.jpg?alt=media&token=7ef9ed49-3221-4d49-8fb4-2c79e5dab333",
-            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00009.jpg?alt=media&token=00d56a11-7a92-4998-a05a-e1dd77b02fe4",
-            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00010.jpg?alt=media&token=24f8f091-acb9-432a-ae0f-7e6227d18803",
-    };
+    public String[] resources = null; //new String[]{
+//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00001.jpg?alt=media&token=460667e4-e084-4dc5-b873-eefa028cec32",
+//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00002.jpg?alt=media&token=e8e86192-eb5d-4e99-b1a8-f00debcdc016",
+//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00004.jpg?alt=media&token=af71cbf5-4be3-4f8a-8a2b-2994bce38377",
+//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00005.jpg?alt=media&token=7d179938-c419-44f4-b965-1993858d6e71",
+//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00006.jpg?alt=media&token=cdd14cf5-6ed0-4fb7-95f5-74618528a48b",
+//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00007.jpg?alt=media&token=98524820-6d7c-4fb4-89b1-65301e1d6053",
+//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00008.jpg?alt=media&token=7ef9ed49-3221-4d49-8fb4-2c79e5dab333",
+//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00009.jpg?alt=media&token=00d56a11-7a92-4998-a05a-e1dd77b02fe4",
+//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00010.jpg?alt=media&token=24f8f091-acb9-432a-ae0f-7e6227d18803",
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +105,38 @@ public class MainActivity extends AppCompatActivity {
 
             setContentView(R.layout.activity_main);
 
-            ((ImageView) findViewById(R.id.tmp_img)).setOnClickListener(new View.OnClickListener() {
+            ServerAPI auth = MainActivity.server.create(ServerAPI.class);
+            auth.getStories(MainActivity.user.getIdUser())
+                    .enqueue(new Callback<List<Stories>>() {
+                        @Override
+                        public void onResponse(Call<List<Stories>> call, Response<List<Stories>> response) {
+                            List<String> tmp = new ArrayList<>();
+                            for (int i = 0; i < response.body().size(); i++) {
+                                for (int j = 0; j < response.body().get(i).getImage().size(); j++) {
+                                    ImageView img = new ImageView(MainActivity.this);
+                                    img.setScaleType(ImageView.ScaleType.FIT_XY);
+                                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                                    lp.setMargins(32,32,32,32);
+                                    img.setLayoutParams(lp);
+                                    img.setMaxWidth((int) convertDpToPixel(100.0f, MainActivity.this));
+                                    Picasso.with(MainActivity.this)
+                                            .load(response.body().get(i).getImage().get(j))
+                                            .placeholder(R.drawable.tmp)
+                                            .error(R.drawable.tmp)
+                                            .into(img);
+                                    ((LinearLayout) findViewById(R.id.list_stories)).addView(img);
+                                    tmp.add(response.body().get(i).getImage().get(j));
+                                }
+                            }
+                            resources = new String[tmp.size()];
+                            tmp.toArray(resources);
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Stories>> call, Throwable t) { }
+                    });
+
+            ((LinearLayout) findViewById(R.id.list_stories)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent a = new Intent(MainActivity.this, StatusStoriesActivity.class);
@@ -146,5 +184,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public static float convertDpToPixel(float dp, Context context){
+        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 }
