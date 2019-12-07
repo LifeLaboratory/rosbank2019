@@ -57,9 +57,9 @@ def change_status(args):
     return 'OK'
 
 
-def get_storis_list(args):
+def get_stories_list(args):
     provider = Provider()
-    answer = provider.get_storis_list(args)
+    answer = provider.get_stories_list(args)
     return answer
 
 
