@@ -81,5 +81,30 @@ class TestStories(unittest.TestCase):
             self.assertEqual(r.status_code, 200)
             self.assertIsNotNone(r.text)
 
+    def test_close_stage_open(self):
+        d = {
+            names.ID_USER: 1,
+            names.ID_STORIES: 2,
+            names.STATUS: 'open'
+
+        }
+        r = req.post(HOST + '/api/stories/view', json=d)
+        print(r.text)
+        self.assertEqual(r.status_code, 200)
+        self.assertIsNotNone(r.text)
+
+    def test_close_stage_view(self):
+        d = {
+            names.ID_USER: 1,
+            names.ID_STORIES: 2,
+            names.STATUS: 'view'
+
+        }
+        r = req.post(HOST + '/api/stories/view', json=d)
+        print(r.text)
+        self.assertEqual(r.status_code, 200)
+        self.assertIsNotNone(r.text)
+
+
 if __name__ == '__main__':
     unittest.main()
