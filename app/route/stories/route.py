@@ -39,6 +39,13 @@ class Stories(BaseRouter):
                 'Access-Control-Allow-Headers': '*',
                 }
 
+    def get(self):
+        answer = get_all_stories()
+        return answer, 200, {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
+
 
 class StoriesView(BaseRouter):
     """

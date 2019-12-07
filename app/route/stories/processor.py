@@ -61,3 +61,9 @@ def get_storis_list(args):
     provider = Provider()
     answer = provider.get_storis_list(args)
     return answer
+
+
+def get_all_stories():
+    provider = Provider()
+    answer = provider.get_all_stories()
+    return answer
