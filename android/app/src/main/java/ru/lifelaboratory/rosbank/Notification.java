@@ -10,6 +10,9 @@ public class Notification {
     private Integer id;
     private String name;
     private String url;
+    private List<String> image;
+    private List<String> description;
+    private Integer type;
 
     public Integer getId() {
         return id;
@@ -35,6 +38,33 @@ public class Notification {
 
     public Notification setUrl(String url) {
         this.url = url;
+        return this;
+    }
+
+    public List<String> getImage() {
+        return image;
+    }
+
+    public Notification setImage(List<String> image) {
+        this.image = image;
+        return this;
+    }
+
+    public List<String> getDescription() {
+        return description;
+    }
+
+    public Notification setDescription(List<String> description) {
+        this.description = description;
+        return this;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public Notification setType(Integer type) {
+        this.type = type;
         return this;
     }
 }
