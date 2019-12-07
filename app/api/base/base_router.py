@@ -28,6 +28,7 @@ class BaseRouter(Resource):
         self.data = self._parser.parse_args()
         if reqparse.request.data:
             self.data[names.URL] = json.loads(reqparse.request.data).get(names.URL)
+            self.data[names.DESCRIPTION] = json.loads(reqparse.request.data).get(names.DESCRIPTION)
             self.data[names.ID_PROFILE] = json.loads(reqparse.request.data).get(names.ID_PROFILE)
 
     def get(self):
