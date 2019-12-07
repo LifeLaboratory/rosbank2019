@@ -260,8 +260,8 @@ class Provider:
     select
       id_stories
       , count(1) count_view
-      , count(case when is_like is TRUE then 1 else 0 end) like_count
-      , count(case when is_like is TRUE then 0 else 1 end) dislike_count
+      , sum(case when is_like is TRUE then 1 else 0 end) like_count
+      , sum(case when is_like is TRUE then 0 else 1 end) dislike_count
     from step_action
     where is_like is not NULL
     group by id_stories

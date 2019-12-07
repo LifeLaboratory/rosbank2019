@@ -19,17 +19,6 @@ class Notification(BaseRouter):
         return answer, 200, names.CORS_HEADERS
 
 
-    def put(self, id_user):
-        self._read_args()
-        if id_user:
-            self.data.update({names.ID_USER: id_user})
-        answer = update_profile(self.data)
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
-
-
 class NotificationGet(BaseRouter):
     """
     Роут получения уведомлений по ид пользователя
