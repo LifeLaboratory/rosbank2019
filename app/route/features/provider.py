@@ -12,3 +12,12 @@ class Provider:
   where "id_user" = {id_user}
                   """
         return Sql.exec(query=query, args=args)
+
+    @staticmethod
+    def insert_feature(args):
+        query = """
+    insert into "features" ("name") 
+    VALUES ('{name}')
+    returning "id_features"
+                  """
+        return Sql.exec(query=query, args=args)

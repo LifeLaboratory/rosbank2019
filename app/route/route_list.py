@@ -7,7 +7,7 @@ from app.route.stories.route import StoriesUpdate
 from app.route.user.route import Auth
 from app.route.profile.route import Profile
 from app.route.statistic.route import Statistic, StatisticView
-from app.route.features.route import Features
+from app.route.features.route import Features, FeaturesAdd
 
 ROUTES = {
     '/api/stories': Stories,
@@ -20,6 +20,7 @@ ROUTES = {
     '/api/auth': Auth,
     '/api/profile': Profile,
     '/api/features/<int:id_user>': Features,
+    '/api/features/add': FeaturesAdd,
     '/api/statistic': Statistic,
     "/api/statistic/<int:id_user>": StatisticView,
     "/api/stories/<int:id_user>": StoriesList
