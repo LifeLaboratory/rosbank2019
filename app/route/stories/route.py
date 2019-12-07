@@ -58,7 +58,7 @@ class StoriesInsert(BaseRouter):
     """
     def __init__(self):
         super().__init__()
-        self.args = [names.ID_USER, names.URL]
+        self.args = [names.ID_USER, names.URL, names.DESCRIPTION]
 
     def post(self):
         self._read_args()

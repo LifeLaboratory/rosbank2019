@@ -17,7 +17,7 @@ def publicate_storie(args):
     for id_user in id_users:
         args[names.ID_USER] = id_user.get(names.ID_USER)
         answer = provider.publicate_storie(args)
-    return 'OK'
+    return names.OK
 
 
 def insert_stories(args):
@@ -28,13 +28,14 @@ def insert_stories(args):
     """
     provider = Provider()
     answer = provider.insert_stories(args)[0]
-    args['id_stories'] = answer.get('id_stories')
-    args['position'] = 0
-    for image in args.get('url'):
-        args['url'] = image
+    args[names.ID_STORIES] = answer.get(names.ID_STORIES)
+    args[names.POSITION] = 0
+    for i in range(len(args.get(names.URL))):
+        args[names.URL] = args.get(names.URL)[i]
+        args[names.DESCRIPTION] = args.get(names.DESCRIPTION)[i]
         provider.insert_image(args)
-        args['position'] += 1
-    return 'OK'
+        args[names.POSITION] += 1
+    return names.OK
 
 
 def stories_profile(args):
@@ -62,7 +63,7 @@ def update_stories(args):
         args['url'] = image
         provider.insert_image(args)
         args['position'] += 1
-    return 'OK'
+    return names.OK
 
 
 def change_status(args):
@@ -85,7 +86,7 @@ def change_status(args):
             answer = provider.insert_status(args)
     if args.get(names.IS_LIKE):
         answer = provider.update_like(args)
-    return 'OK'
+    return names.OK
 
 
 def get_stories_list(args):
