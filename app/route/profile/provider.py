@@ -5,17 +5,17 @@ class Provider:
     @staticmethod
     def get_profile(args):
         query = """
-        select 
-          *
-        from "profile"
-        """
+  select 
+    *
+  from profile
+  """
         return Sql.exec(query=query, args=args)
 
     @staticmethod
     def update_profile(args):
         query = """
-        update "profile" 
-          set "description" = '{description}'
-          where "id_profile" = {id_profile}
-        """
+  update profile
+    set "description" = '{description}'
+    where "id_profile" = {id_profile}
+    """
         return Sql.exec(query=query, args=args)

@@ -18,6 +18,7 @@ class Features(BaseRouter):
 
 
 class FeaturesAdd(BaseRouter):
+
     def __init__(self):
         super().__init__()
         self.args = [names.NAME]

@@ -10,7 +10,7 @@ class StoriesProfile(BaseRouter):
     """
     def __init__(self):
         super().__init__()
-        self.args = [names.ID_STORIES, names.ID_USER, names.URL, 'type']
+        self.args = [names.ID_STORIES, names.ID_USER, names.URL, names.TYPE]
 
     def get(self, id_profile):
         self._read_args()
@@ -28,7 +28,7 @@ class Stories(BaseRouter):
     """
     def __init__(self):
         super().__init__()
-        self.args = [names.ID_STORIES, names.ID_USER, names.URL, names.ID_PROFILE, 'type']
+        self.args = [names.ID_STORIES, names.ID_USER, names.URL, names.ID_PROFILE, names.TYPE]
 
     def post(self):
         self._read_args()
@@ -102,10 +102,9 @@ class StoriesList(BaseRouter):
     """
     Роут работы со сторис
     """
-
     def __init__(self):
         super().__init__()
-        self.args = [names.ID_STORIES, names.URL, 'type']
+        self.args = [names.ID_STORIES, names.URL, names.TYPE]
 
     def get(self, id_user):
         self._read_args()

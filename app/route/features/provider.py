@@ -8,19 +8,19 @@ class Provider:
   select 
     uf.*
     , f.*
-    , us.name as user_name
-  from "user_features" uf
-  join "features" f using(id_features)
-  join users us using(id_user)
+    , us."name" as user_name
+  from user_features uf
+  join features f using("id_features")
+  join users us using("id_user")
   where "id_user" = {id_user}
-                  """
+  """
         return Sql.exec(query=query, args=args)
 
     @staticmethod
     def insert_feature(args):
         query = """
-    insert into "features" ("name") 
-    VALUES ('{name}')
-    returning "id_features"
-                  """
+  insert into features ("name") 
+  VALUES ('{name}')
+  returning "id_features"
+  """
         return Sql.exec(query=query, args=args)
