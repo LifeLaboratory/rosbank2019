@@ -1,0 +1,39 @@
+<md-dialog aria-label="События">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Статистика пользователя</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()"></md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <table style="width: 100%" class="table table-striped">
+                    <thead>
+                        <th>ИД пользователя</th>
+                        <th>Название</th>
+                        <th>Мобильное приложение/Веб-интерфейс</th>
+                        <td></td>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="profile in one_profile">
+                            <td>{{one_profile_id}}</td>
+                            <td>{{profile.names}}</td>
+                            <td>{{profile.android}}/{{profile.web}}</td>
+                            <td>{{draw_data($index, profile.names, profile.android, profile.web)}}<div id="my_dataviz{{$index}}"></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="hide()">
+                ОК
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

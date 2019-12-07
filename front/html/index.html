@@ -13,9 +13,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-messages.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css" />
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script type="text/javascript">
         var app = angular.module("Index", ['ngMaterial']);
-        app.controller("IndexController", function($scope, $http){
+        app.controller("IndexController", function($scope, $http, $mdDialog){
             $scope.profile = [];
             $http({
                 method: 'GET',
@@ -25,7 +27,93 @@
                 $scope.profile = value.data;
             }, function (reason) {
                 console.log(reason);
-            })
+            });
+
+            $scope.showHistory = function(ev, id_user) {
+                $http({
+                    method: 'GET',
+                    url: "http://100.64.17.109:13451/api/statistic/" + id_user
+                }).then(function (value) {
+                    $scope.one_profile = value.data;
+                    $scope.one_profile_id = id_user;
+                    console.log($scope.one_profile);
+                }, function (reason) {
+                    console.log(reason);
+                });
+
+                $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: 'html/history.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    scope: $scope,
+                    clickOutsideToClose: true
+                })
+                    .then(function(answer) {
+                        $scope.status = 'You said the information was "' + answer + '".';
+                    }, function() {
+                        $scope.status = 'You cancelled the dialog.';
+                    });
+            };
+
+            function DialogController($scope, $mdDialog) {
+                $scope.hide = function() {
+                    $mdDialog.cancel();
+                };
+                $scope.cancel = function() {
+                    $mdDialog.cancel();
+                };
+            }
+
+            $scope.draw_data = function(index, type, android, web) {
+                var width = 250;
+                height = 250;
+                margin = 20;
+
+                var radius = Math.min(width, height) / 2 - margin;
+
+                var svg = d3.select("#my_dataviz" + index)
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .append("g")
+                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+                var data = {'android': android, 'web': web};
+
+                var color = d3.scaleOrdinal()
+                    .domain(data)
+                    .range(d3.schemeSet2);
+
+                var pie = d3.pie()
+                    .value(function(d) {return d.value; });
+                var data_ready = pie(d3.entries(data));
+
+                var arcGenerator = d3.arc()
+                    .innerRadius(0)
+                    .outerRadius(radius);
+
+                svg
+                    .selectAll('mySlices')
+                    .data(data_ready)
+                    .enter()
+                    .append('path')
+                    .attr('d', arcGenerator)
+                    .attr('fill', function(d){ return(color(d.data.key)) })
+                    .attr("stroke", "black")
+                    .style("stroke-width", "2px")
+                    .style("opacity", 0.7);
+
+                svg
+                    .selectAll('mySlices')
+                    .data(data_ready)
+                    .enter()
+                    .append('text')
+                    .text(function(d){ return d.data.key})
+                    .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
+                    .style("text-anchor", "middle")
+                    .style("font-size", 17);
+            }
         });
     </script>
     <title>Главная</title>
@@ -81,7 +169,7 @@
                                         <h4>Идентификатор: {{u.id_user}}</h4>
 <!--                                           <p>{{item.notes}}</p>-->
                                     </div>
-                                    <md-button class="md-secondary">Подробнее</md-button>
+                                    <md-button class="md-secondary" ng-click="showHistory($event, u.id_user)">Подробнее</md-button>
                                     <md-divider ng-if="!$last"></md-divider>
                                 </md-list-item>
                             </md-list>
