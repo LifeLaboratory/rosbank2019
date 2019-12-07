@@ -58,19 +58,36 @@ class Provider:
       user_features uf
     join features f on uf."id_features" = f."id_features"
     group by uf."id_user"
-  )
+  ),
+    actions_agg as (
+      select
+    id_profile,
+    id_user,
+    count(1) filter(where "platform" = 'web') as web,
+    count(1) filter(where "platform" = 'android') as android,
+    count(*) all_request
+  from statistic_action sta
+  join action ac on ac."id_action" = sta."id_action"
+  group by id_profile, id_user
+  order by 4 desc
+    )
+
     select
       pr."id_profile",
       pr."description",
       array_agg(
         json_build_object(
-          'id_user',u."id_user", 
+          'id_user',u."id_user",
           'name', u."name",
-          'feature', f.array_f
+          'feature', f.array_f,
+          'web', act_agg.web,
+          'android', act_agg.android,
+          'all_request', act_agg.all_request
         )
       ) users
     from profile pr
     join users u on pr."id_profile" = u."id_profile"
+    left join actions_agg act_agg on act_agg.id_profile = pr.id_profile and act_agg.id_user = u.id_user
     left join feature f on u."id_user" = f."id_user"
     group by pr.id_profile
   """
