@@ -1,6 +1,7 @@
 from app.route.stories.provider import Provider
 from app.api.base import base_name as names
 from app.api.helper import get_id_user_by_profile, get_id_user_by_profiles
+from app.api.helper import get_admins
 
 
 def publicate_storie(args):
@@ -101,6 +102,19 @@ def get_stories_list(args):
     return answer
 
 
+def get_admins_ids(args):
+    """
+    Метод возвращает список id администраторов
+    :param args:
+    :return:
+    """
+    result = []
+    admins_ids = get_admins(args)
+    for admin_id in admins_ids:
+        result.append(admin_id.get(names.ID_USER))
+    return result
+
+
 def get_all_stories(args):
     """
     Получить все истории для пнаели админа
@@ -108,5 +122,8 @@ def get_all_stories(args):
     :return:
     """
     provider = Provider()
+    args['left_string'] = ''
+    if args.get(names.ID_USER) and int(args.get(names.ID_USER)) in get_admins_ids(args):
+        args['left_string'] = 'left'
     answer = provider.get_all_stories(args)
     return answer

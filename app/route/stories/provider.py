@@ -270,7 +270,7 @@ class Provider:
     sa.*
     , array_agg(json_build_object('id_profile',pr."id_profile", 'name', pr."description") order by pr."description") open
   from stories_all sa
-  join public_open pr using("id_stories")
+  {left_string} join public_open pr using("id_stories")
   group by sa."id_stories", image
   )
 
