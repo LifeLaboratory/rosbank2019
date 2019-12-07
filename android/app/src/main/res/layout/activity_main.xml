@@ -51,61 +51,19 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:fillViewport="true">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_margin="16dp"
-                        android:layout_width="55dp"
-                        android:layout_height="100dp"
-                        android:scaleType="fitXY"
-                        android:id="@+id/tmp_img"
-                        android:src="@drawable/tmp"/>
-
-                    <ImageView
-                        android:layout_margin="16dp"
-                        android:layout_width="55dp"
-                        android:layout_height="100dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/tmp"/>
-
-                    <ImageView
-                        android:layout_margin="16dp"
-                        android:layout_width="55dp"
-                        android:layout_height="100dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/tmp"/>
-
-                    <ImageView
-                        android:layout_margin="16dp"
-                        android:layout_width="55dp"
-                        android:layout_height="100dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/tmp"/>
-
-                    <ImageView
-                        android:layout_margin="16dp"
-                        android:layout_width="55dp"
-                        android:layout_height="100dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/tmp"/>
-
-                    <ImageView
-                        android:layout_margin="16dp"
-                        android:layout_width="55dp"
-                        android:layout_height="100dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/tmp"/>
-
+                    android:layout_height="132dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/list_stories">
                 </LinearLayout>
 
             </HorizontalScrollView>
