@@ -18,33 +18,34 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
-            android:background="#a6a7a7">
+            android:background="#fdfefc">
 
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:paddingLeft="15dp"
-            android:foregroundGravity="center_horizontal"
-            android:layout_gravity="center_vertical"
-            android:text="Росбанк\n[Life] Laboratory"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:paddingLeft="15dp"
+                android:foregroundGravity="center_horizontal"
+                android:layout_gravity="center_vertical"
+                android:text="Росбанк\n[Life] Laboratory"/>
 
-        <ImageView
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:foregroundGravity="center_horizontal"
-            android:src="@drawable/logo_rosbank_1"/>
+            <ImageView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:foregroundGravity="center_horizontal"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/logo_rosbank_1"/>
 
         </LinearLayout>
 
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
-        android:background="#fff"
+        android:background="#fdfefc"
         android:layout_marginTop="56dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -58,7 +59,7 @@
                 android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Для приема платежей покажите QR-код"
+                android:text="Для приема платежей покажите QR-код покупателю"
                 android:textStyle="bold"
                 android:textSize="22sp"
                 android:textColor="#000"
@@ -71,5 +72,13 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:background="#e60026"
+        android:text="Вызвать фиксиков"/>
 
 </RelativeLayout>

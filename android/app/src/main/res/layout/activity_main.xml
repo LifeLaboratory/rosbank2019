@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
-            android:background="#a6a7a7">
+            android:background="#fdfefc">
 
             <TextView
                 android:layout_weight="1"
@@ -35,8 +35,9 @@
             <ImageView
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="56dp"
+                android:layout_height="45dp"
                 android:foregroundGravity="center_horizontal"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/logo_rosbank_1"/>
 
         </LinearLayout>
@@ -47,7 +48,7 @@
         android:layout_marginTop="56dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff">
+        android:background="#fdfefc">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,6 +61,7 @@
                 android:fillViewport="true">
 
                 <LinearLayout
+                    android:background="#f1f1f1"
                     android:layout_width="wrap_content"
                     android:layout_height="132dp"
                     android:orientation="horizontal"
@@ -68,81 +70,109 @@
 
             </HorizontalScrollView>
 
-
-            <LinearLayout
-                android:id="@+id/to_transfer"
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:padding="15dp">
+                android:layout_margin="16dp">
 
-                <ImageView
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/compare_arrows_red"/>
-
-                <TextView
-                    android:layout_marginLeft="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="25dp"
-                    android:textColor="#000000"
+                <LinearLayout
+                    android:id="@+id/to_transfer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Перевод"/>
+                    android:background="#fff"
+                    android:padding="15dp">
 
-            </LinearLayout>
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/compare_arrows_red"/>
 
-            <LinearLayout
-                android:id="@+id/to_currency_transfer"
+                    <TextView
+                        android:layout_marginLeft="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="25dp"
+                        android:textColor="#000000"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Перевод"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:padding="15dp">
+                android:layout_margin="16dp">
 
-                <ImageView
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/monetization"/>
-
-                <TextView
-                    android:layout_marginLeft="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="25dp"
-                    android:textColor="#000000"
+                <LinearLayout
+                    android:id="@+id/to_currency_transfer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Мультиварютный перевод"/>
+                    android:background="#fff"
+                    android:padding="15dp">
 
-            </LinearLayout>
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/monetization"/>
 
-            <LinearLayout
-                android:id="@+id/to_qr_payment"
+                    <TextView
+                        android:layout_marginLeft="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="25dp"
+                        android:textColor="#000000"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Конвертер валют"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:padding="15dp">
+                android:layout_margin="16dp">
 
-                <ImageView
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/center_focus_weak"/>
-
-                <TextView
-                    android:layout_marginLeft="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="25dp"
-                    android:textColor="#000000"
+                <LinearLayout
+                    android:id="@+id/to_qr_payment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Оплата по QR-коду"/>
+                    android:background="#fff"
+                    android:padding="15dp">
 
-            </LinearLayout>
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/center_focus_weak"/>
+
+                    <TextView
+                        android:layout_marginLeft="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="25dp"
+                        android:textColor="#000000"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Оплата по QR-коду"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 
     </ScrollView>
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:background="#e60026"
+        android:text="Вызвать фиксиков"/>
 
 </RelativeLayout>

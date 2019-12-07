@@ -19,4 +19,10 @@ public interface ServerAPI {
     @GET("/api/stories/{id_user}")
     Call<List<Stories>> getStories(@Path("id_user") Integer id);
 
+    @GET("/api/notifications/{id_user}")
+    Call<List<Notification>> getNotification(@Path("id_user") Integer id);
+
+    @POST("/api/stories/view")
+    Call<Object> sendView(@Body ViewStories id);
+
 }

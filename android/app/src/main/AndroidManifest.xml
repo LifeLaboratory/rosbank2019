@@ -19,6 +19,25 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="100.64.23.177"
+                    android:pathPrefix="/transfer"
+                    android:scheme="http" />
+                <data
+                    android:host="100.64.23.177"
+                    android:pathPrefix="/qr"
+                    android:scheme="http" />
+                <data
+                    android:host="100.64.23.177"
+                    android:pathPrefix="/convert"
+                    android:scheme="http" />
+                <data
+                    android:scheme="lifelaboratory" />
+
             </intent-filter>
         </activity>
         <activity
@@ -37,6 +56,7 @@
             android:name="com.rahuljanagouda.statusstories.StatusStoriesActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <service android:name=".NotificationService" />
     </application>
 
 </manifest>
