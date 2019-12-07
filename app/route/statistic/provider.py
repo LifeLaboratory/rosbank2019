@@ -2,8 +2,16 @@ from app.api.base.base_sql import Sql
 
 
 class Provider:
+    """
+    Класс для работы со статистикой в бд
+    """
     @staticmethod
     def statistic(args):
+        """
+        Добавить статистику в бд
+        :param args:
+        :return:
+        """
         query = """
   insert into statistic_action("id_user", "id_action", "platform")
   values ({id_user}, {id_action}, '{platform}')
@@ -12,6 +20,11 @@ class Provider:
 
     @staticmethod
     def get_statistic(args):
+        """
+        Получить статистику
+        :param args:
+        :return:
+        """
         query = """
   select
     ac."names",
@@ -28,6 +41,10 @@ class Provider:
 
     @staticmethod
     def get_statistic_list():
+        """
+        Получить всю статистику по пользователям
+        :return:
+        """
         query = """
   select
     pr."id_profile",

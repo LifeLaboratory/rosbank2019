@@ -5,6 +5,11 @@ from app.api.helper import get_id_user_by_profile
 
 
 def add_notification(args):
+    """
+    Добавить уведомление
+    :param args:
+    :return:
+    """
     provider = Provider()
     answer = provider.insert_notification(args)[0]
     args[names.ID_NOTIFICATION] = answer.get(names.ID_NOTIFICATION)
@@ -16,6 +21,12 @@ def add_notification(args):
 
 
 def get_notification(args):
+    """
+    Получить список уведомлений для пользователя
+    :param args:
+    :return:
+    """
+    req_fields = [names.IMAGE, names.DESCRIPTION, names.TYPE]
     provider = Provider()
     provider_st = provider_stories()
     answer = provider.get_notifications(args)
@@ -23,13 +34,6 @@ def get_notification(args):
         args[names.ID_STORIES] = id.get(names.ID_STORIES)
         id[names.ID_STORIES] = id.get(names.ID_STORIES)
         result = provider_st.get_stories(args)[0]
-        id['image'] = result.get('image')
-        id['description'] = result.get('description')
-        id['type'] = result.get('type')
-    return answer
-
-
-def update_profile(args):
-    provider = Provider()
-    answer = provider.update_profile(args)
+        for field in req_fields:
+            id[field] = result.get(field)
     return answer

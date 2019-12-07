@@ -4,6 +4,11 @@ from app.api.helper import get_id_user_by_profile, get_id_user_by_profiles
 
 
 def publicate_storie(args):
+    """
+    Опубликовать исторю
+    :param args:
+    :return:
+    """
     provider = Provider()
     if isinstance(args.get(names.ID_PROFILE), list):
         id_users = get_id_user_by_profiles(args)
@@ -16,6 +21,11 @@ def publicate_storie(args):
 
 
 def insert_stories(args):
+    """
+    Создать историю
+    :param args:
+    :return:
+    """
     provider = Provider()
     answer = provider.insert_stories(args)[0]
     args['id_stories'] = answer.get('id_stories')
@@ -28,12 +38,22 @@ def insert_stories(args):
 
 
 def stories_profile(args):
+    """
+    Получить истории для профиля
+    :param args:
+    :return:
+    """
     provider = Provider()
     answer = provider.stories_profile(args)
     return answer
 
 
 def update_stories(args):
+    """
+    Обновить историю
+    :param args:
+    :return:
+    """
     provider = Provider()
     answer = provider.update_stories(args)
     answer = provider.delete_images(args)
@@ -46,6 +66,11 @@ def update_stories(args):
 
 
 def change_status(args):
+    """
+    Изменить статус в действий пользователя
+    :param args:
+    :return:
+    """
     provider = Provider()
     status = provider.select_status(args)
     args['is_open'] = args['status'] == 'open'
@@ -64,12 +89,22 @@ def change_status(args):
 
 
 def get_stories_list(args):
+    """
+    Поулчить истории для пользователя
+    :param args:
+    :return:
+    """
     provider = Provider()
     answer = provider.get_stories_list(args)
     return answer
 
 
 def get_all_stories(args):
+    """
+    Получить все истории для пнаели админа
+    :param args:
+    :return:
+    """
     provider = Provider()
     answer = provider.get_all_stories(args)
     return answer
