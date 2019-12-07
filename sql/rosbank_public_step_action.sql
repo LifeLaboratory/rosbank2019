@@ -1,0 +1,4 @@
+INSERT INTO public.step_action (id_step_action, id_stories, is_open, id_user, is_view, time, is_like) VALUES (1, 1, false, 1, true, '2019-12-07 16:41:14.852008', false);
+INSERT INTO public.step_action (id_step_action, id_stories, is_open, id_user, is_view, time, is_like) VALUES (3, 8, true, 2, false, '2019-12-07 12:50:47.321046', false);
+INSERT INTO public.step_action (id_step_action, id_stories, is_open, id_user, is_view, time, is_like) VALUES (2, 2, false, 1, true, '2019-12-07 16:41:17.543218', true);
+INSERT INTO public.step_action (id_step_action, id_stories, is_open, id_user, is_view, time, is_like) VALUES (4, 1, true, 2, false, '2019-12-07 15:29:28.667126', false);
