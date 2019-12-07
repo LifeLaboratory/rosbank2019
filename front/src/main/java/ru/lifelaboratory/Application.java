@@ -17,6 +17,8 @@ public class Application {
         vertx.createHttpServer().requestHandler(request -> {
             if (request.uri().equals("/"))
                 request.response().sendFile("html/index.html");
+            else if (request.uri().equals("/profile"))
+                request.response().sendFile("html/profile.html");
             else if (!request.uri().equals("/favicon.ico"))
                 request.response().sendFile(request.uri().substring(1));
         }).listen(8081);
