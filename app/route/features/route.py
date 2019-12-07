@@ -5,7 +5,9 @@ from app.api.base.base_router import BaseRouter
 
 
 class Features(BaseRouter):
-
+    """
+    Роут для работы получения списка функционала пользователя
+    """
     def get(self, id_user):
         args = {
             names.ID_USER: id_user
@@ -15,6 +17,9 @@ class Features(BaseRouter):
 
 
 class FeaturesAdd(BaseRouter):
+    """
+    Роут для добавления нового функционала
+    """
     def __init__(self):
         super().__init__()
         self.args = [names.NAME]

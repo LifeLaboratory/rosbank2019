@@ -5,7 +5,9 @@ from app.api.base.base_router import BaseRouter
 
 
 class Profile(BaseRouter):
-
+    """
+    Метод для получения профилей и обновления данных
+    """
     def __init__(self):
         super().__init__()
         self.args = [names.FIO, names.DESCRIPTION, names.PHOTO, names.STATUS, names.TITLE]
@@ -13,6 +15,11 @@ class Profile(BaseRouter):
     def get(self):
         args = {}
         answer = get_profile(args)
+        return answer or {}, names.HEADER
+
+    def post(self):
+        args = {}
+        answer = insert_profile(args)
         return answer or {}, names.HEADER
 
     def put(self, id_user):

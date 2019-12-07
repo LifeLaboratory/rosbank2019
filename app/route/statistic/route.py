@@ -5,7 +5,9 @@ from app.api.base.base_router import BaseRouter
 
 
 class Statistic(BaseRouter):
-
+    """
+    Роут для добавления и получения списка статистики по пользователям
+    """
     def __init__(self):
         super().__init__()
         self.args = [names.ID_USER, names.ID_ACTION, names.NAME_PLATFORM]
@@ -25,7 +27,9 @@ class Statistic(BaseRouter):
 
 
 class StatisticView(BaseRouter):
-
+    """
+    Роут получения статистики конкретного пользователя
+    """
     def get(self, id_user):
         args = {
             names.ID_USER: id_user

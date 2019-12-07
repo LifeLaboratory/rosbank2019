@@ -5,7 +5,9 @@ from app.api.base.base_router import BaseRouter
 
 
 class Auth(BaseRouter):
-
+    """
+    Роут для авторизации пользователя
+    """
     def __init__(self):
         super().__init__()
         self.args = [names.LOGIN, names.PASSWORD]
@@ -17,6 +19,9 @@ class Auth(BaseRouter):
 
 
 class Register(BaseRouter):
+    """
+    Роут для регистрации пользователей
+    """
     def __init__(self):
         super().__init__()
         self.args = [names.LOGIN, names.PASSWORD, names.FIO, names.DESCRIPTION, names.PHOTO]

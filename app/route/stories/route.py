@@ -6,7 +6,7 @@ from app.api.base.base_router import BaseRouter
 
 class StoriesProfile(BaseRouter):
     """
-    Роут работы со сторис
+    Роут для получения списка сторис и туториалов по профилю пользователей
     """
     def __init__(self):
         super().__init__()
@@ -21,7 +21,7 @@ class StoriesProfile(BaseRouter):
 
 class Stories(BaseRouter):
     """
-    Роут работы со сторис
+    Роут публикации постов для профилей пользователей и получения списка всех сторис для админов
     """
     def __init__(self):
         super().__init__()
@@ -40,7 +40,8 @@ class Stories(BaseRouter):
 
 class StoriesStatus(BaseRouter):
     """
-    Роут работы со сторис
+    Роут для изменения данных по статусам сторис и туториалов
+    изменения вносятся в этапы просмотра пользователем сторис и лайки/дизлайки для отслеживания статистики
     """
     def __init__(self):
         super().__init__()
@@ -54,7 +55,7 @@ class StoriesStatus(BaseRouter):
 
 class StoriesInsert(BaseRouter):
     """
-    Роут работы со сторис
+    Роут для добавления сторис и туториалов админами
     """
     def __init__(self):
         super().__init__()
@@ -68,7 +69,7 @@ class StoriesInsert(BaseRouter):
 
 class StoriesUpdate(BaseRouter):
     """
-    Роут работы со сторис
+    Роут для обновления сторис админами
     """
     def __init__(self):
         super().__init__()
@@ -82,7 +83,7 @@ class StoriesUpdate(BaseRouter):
 
 class StoriesList(BaseRouter):
     """
-    Роут работы со сторис
+    Роут для получения списка сторис конкретного пользователя
     """
 
     def __init__(self):

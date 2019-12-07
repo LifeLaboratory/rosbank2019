@@ -19,3 +19,11 @@ class Provider:
           where "id_profile" = {id_profile}
         """
         return Sql.exec(query=query, args=args)
+
+    @staticmethod
+    def insert_profile(args):
+        query = """
+  insert into "profile"("description", "id_profile")
+  VALUES ('{description}', id_profile)
+  """
+        return Sql.exec(query=query, args=args)

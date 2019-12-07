@@ -6,7 +6,7 @@ from app.api.base.base_router import BaseRouter
 
 class Notification(BaseRouter):
     """
-    Роут работы с уведомлениями
+    Роут для добавления уведомлений
     """
     def __init__(self):
         super().__init__()
@@ -21,7 +21,7 @@ class Notification(BaseRouter):
 
 class Notification_get(BaseRouter):
     """
-    Роут работы с уведомлениями
+    Роут для получения уведомлений пользователя
     """
     def __init__(self):
         super().__init__()
