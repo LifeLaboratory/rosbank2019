@@ -47,7 +47,7 @@ class Stories(BaseRouter):
                 }
 
 
-class StoriesView(BaseRouter):
+class StoriesStatus(BaseRouter):
     """
     Роут работы со сторис
     """

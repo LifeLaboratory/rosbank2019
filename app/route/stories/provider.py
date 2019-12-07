@@ -70,6 +70,15 @@ class Provider:
         return Sql.exec(query=query, args=args)
 
     @staticmethod
+    def update_like(args):
+        query = """
+        update "step_action" 
+          set "is_like" = {is_like}::boolean
+          where "id_user" = {id_user} and "id_stories" = {id_stories}
+            """
+        return Sql.exec(query=query, args=args)
+
+    @staticmethod
     def update_notifications_user(args):
         query = """
         update "notifications_users" 
