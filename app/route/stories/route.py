@@ -29,7 +29,7 @@ class Stories(BaseRouter):
 
     def post(self):
         self._read_args()
-        answer = publicate_storie(self.data)
+        answer = public_stories(self.data)
         return answer or {}, 200, names.HEADER
 
     def get(self):
