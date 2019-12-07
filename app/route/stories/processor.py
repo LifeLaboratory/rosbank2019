@@ -54,10 +54,11 @@ def change_status(args):
     if args.get('id_notification') is not None:
         args['active'] = False if args['is_view'] else True
         answer = provider.update_notifications_user(args)
-    if status:
-        answer = provider.update_status(args)
-    else:
-        answer = provider.insert_status(args)
+    if args.get('status') is not None:
+        if status:
+            answer = provider.update_status(args)
+        else:
+            answer = provider.insert_status(args)
     if args.get(names.IS_LIKE):
         answer = provider.update_like(args)
     return 'OK'

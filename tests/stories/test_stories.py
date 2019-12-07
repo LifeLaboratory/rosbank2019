@@ -105,6 +105,28 @@ class TestStories(unittest.TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertIsNotNone(r.text)
 
+    def test_like(self):
+        d = {
+            names.ID_STORIES: 1,
+            names.ID_USER: 1,
+            names.IS_LIKE: True
+        }
+        r = req.post(HOST + '/api/stories/update_status', json=d)
+        print(r.text)
+        self.assertEqual(r.status_code, 200)
+        self.assertIsNotNone(r.text)
+
+    def test_dislike(self):
+        d = {
+            names.ID_STORIES: 1,
+            names.ID_USER: 1,
+            names.IS_LIKE: False
+        }
+        r = req.post(HOST + '/api/stories/update_status', json=d)
+        print(r.text)
+        self.assertEqual(r.status_code, 200)
+        self.assertIsNotNone(r.text)
+
 
 if __name__ == '__main__':
     unittest.main()
