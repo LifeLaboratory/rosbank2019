@@ -25,6 +25,7 @@ def get_notification(args):
         result = provider_st.get_stories(args)[0]
         id['image'] = result.get('image')
         id['description'] = result.get('description')
+        id['type'] = result.get('type')
     return answer
 
 
