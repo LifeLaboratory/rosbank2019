@@ -238,7 +238,7 @@ class Provider:
         :return:
         """
         query = """
-  with stories_all as(
+    with stories_all as(
     select 
       img."id_stories",
       array_agg(img."url" order by position desc) as image
@@ -255,12 +255,31 @@ class Provider:
     from publicated_stories ps
     join users u on ps."id_user" = u."id_user"
     join profile pr on u."id_profile" = pr."id_profile"
-  )
-  select 
+  ),
+  step_action_agg as (
+    select
+      id_stories
+      , count(1) count_view
+      , count(case when is_like is TRUE then 1 else 0 end) like_count
+      , count(case when is_like is TRUE then 0 else 1 end) dislike_count
+    from step_action
+    where is_like is not NULL
+    group by id_stories
+  ),
+  prep as (select
     sa.*
     , array_agg(json_build_object('id_profile',pr."id_profile", 'name', pr."description") order by pr."description") open
   from stories_all sa
   join public_open pr using("id_stories")
   group by sa."id_stories", image
+  )
+
+  select
+    prep.*
+    , count_view
+    , like_count
+    , dislike_count
+ from prep
+  left join step_action_agg likes on likes.id_stories = prep.id_stories
   """
         return Sql.exec(query=query, args=args)
