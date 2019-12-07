@@ -26,8 +26,8 @@ class Provider:
         :return:
         """
         query = """
-  insert into stories ("id_user", "id_creator")
-  VALUES ({id_user}, {id_user})
+  insert into stories ("id_user", "id_creator", "type")
+  VALUES ({id_user}, {id_user}, {type})
   returning "id_stories"
   """
         return Sql.exec(query=query, args=args)
