@@ -23,7 +23,7 @@ class Provider:
     def stories_profile(args):
         query = """
         select stories.* from users 
-        join stories on stories.id_user = users.id_user
+        join stories on stories.id_user = users.id_user and stories.type = {type}
         where id_profile = {id_profile}
         """
         return Sql.exec(query=query, args=args)
@@ -130,7 +130,7 @@ class Provider:
           img."id_stories",
           array_agg(img."url" order by position) as image
         from images img
-        join stories str on img."id_stories" = str."id_stories"
+        join stories str on img."id_stories" = str."id_stories" and str.type = {type}
         join publicated_stories ps on ps.id_stories = str.id_stories
         where str."id_user" = '{id_user}'
         group by img."id_stories"
@@ -138,14 +138,14 @@ class Provider:
         return Sql.exec(query=query, args=args)
 
     @staticmethod
-    def get_all_stories():
+    def get_all_stories(args):
         query = """
         with stories_all as(
           select 
             img."id_stories",
             array_agg(img."url" order by position desc) as image
           from images img
-          join stories str on img."id_stories" = str."id_stories"
+          join stories str on img."id_stories" = str."id_stories" and str.type = {type}
           group by img."id_stories"
         ),
         public_open as (
@@ -165,4 +165,4 @@ class Provider:
         join public_open pr using("id_stories")
         group by sa."id_stories", image
         """
-        return Sql.exec(query=query)
+        return Sql.exec(query=query, args=args)

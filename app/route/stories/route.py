@@ -10,13 +10,12 @@ class StoriesProfile(BaseRouter):
     """
     def __init__(self):
         super().__init__()
-        self.args = [names.ID_STORIES, names.ID_USER, names.URL, names.ID_PROFILE]
+        self.args = [names.ID_STORIES, names.ID_USER, names.URL, 'type']
 
     def get(self, id_profile):
-        args = {
-            names.ID_PROFILE: id_profile
-        }
-        answer = stories_profile(args)
+        self._read_args()
+        self.data[names.ID_PROFILE] = id_profile
+        answer = stories_profile(self.data)
         return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
                                    'Access-Control-Allow-Methods': '*',
                                    'Access-Control-Allow-Headers': '*',
@@ -29,7 +28,7 @@ class Stories(BaseRouter):
     """
     def __init__(self):
         super().__init__()
-        self.args = [names.ID_STORIES, names.ID_USER, names.URL, names.ID_PROFILE]
+        self.args = [names.ID_STORIES, names.ID_USER, names.URL, names.ID_PROFILE, 'type']
 
     def post(self):
         self._read_args()
@@ -40,7 +39,8 @@ class Stories(BaseRouter):
                 }
 
     def get(self):
-        answer = get_all_stories()
+        self._read_args()
+        answer = get_all_stories(self.data)
         return answer, 200, {'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': '*',
                 'Access-Control-Allow-Headers': '*',
@@ -103,11 +103,14 @@ class StoriesList(BaseRouter):
     Роут работы со сторис
     """
 
+    def __init__(self):
+        super().__init__()
+        self.args = [names.ID_STORIES, names.URL, 'type']
+
     def get(self, id_user):
-        args = {
-            names.ID_USER: id_user
-        }
-        answer = get_stories_list(args)
+        self._read_args()
+        self.data[names.ID_USER] = id_user
+        answer = get_stories_list(self.data)
         return answer, 200, {'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': '*',
                 'Access-Control-Allow-Headers': '*',

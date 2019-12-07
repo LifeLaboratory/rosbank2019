@@ -70,7 +70,7 @@ def get_stories_list(args):
     return answer
 
 
-def get_all_stories():
+def get_all_stories(args):
     provider = Provider()
-    answer = provider.get_all_stories()
+    answer = provider.get_all_stories(args)
     return answer
