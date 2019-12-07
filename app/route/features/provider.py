@@ -6,7 +6,7 @@ class Provider:
     def get_feature_user(args):
         query = """
   select 
-    uf.*
+    *
   from "user_features" uf
   join "features" f using(id_features)
   where "id_user" = {id_user}
