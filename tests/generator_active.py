@@ -14,8 +14,8 @@ def create_post(d):
 
 for i in range(1, 1000):
     d = {
-        ID_USER: randint(1, 5),
-        ID_ACTION: randint(1, 5),
+        ID_USER: randint(1, 123456789) % 5,
+        ID_ACTION: randint(1, 123456789) % 5,
         NAME_PLATFORM: choice(platform)
     }
     create_post(loads(dumps(d)))
