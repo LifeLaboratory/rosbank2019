@@ -53,7 +53,7 @@ class StoriesView(BaseRouter):
     """
     def __init__(self):
         super().__init__()
-        self.args = [names.ID_STORIES, names.ID_USER, names.STATUS, names.IS_LIKE]
+        self.args = [names.ID_STORIES, names.ID_USER, names.STATUS, names.IS_LIKE, names.ID_NOTIFICATION]
 
     def post(self):
         self._read_args()

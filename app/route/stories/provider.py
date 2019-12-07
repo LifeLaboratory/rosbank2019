@@ -71,6 +71,16 @@ class Provider:
         return Sql.exec(query=query, args=args)
 
     @staticmethod
+    def update_notifications_user(args):
+        query = """
+        update "notifications_users" 
+          set "active" = {active}, 
+              "time" = NOW() + interval '5 minutes'
+          where "id_notification" = {id_notification}
+            """
+        return Sql.exec(query=query, args=args)
+
+    @staticmethod
     def update_stories(args):
         query = """
         update "stories" 

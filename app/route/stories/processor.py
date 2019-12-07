@@ -1,4 +1,5 @@
 from app.route.stories.provider import Provider
+from app.route.notifications import provider as provider_notifications
 from app.api.base import base_name as names
 from app.api.helper import get_id_user_by_profile, get_id_user_by_profiles
 
@@ -50,6 +51,9 @@ def change_status(args):
     status = provider.select_status(args)
     args['is_open'] = args['status'] == 'open'
     args['is_view'] = args['status'] == 'view'
+    if args.get('id_notification') is not None:
+        args['active'] = args['is_open']
+        answer = provider.update_notifications_user(args)
     if status:
         answer = provider.update_status(args)
     else:
