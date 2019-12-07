@@ -64,7 +64,6 @@ class Provider:
         update "step_action" 
           set "is_open" = {is_open}, 
               "is_view" = {is_view},
-              "is_like" = {is_like}::boolean,
               "time" = NOW()
           where "id_user" = {id_user} and "id_stories" = {id_stories}
             """
