@@ -52,7 +52,7 @@ def change_status(args):
     args['is_open'] = args['status'] == 'open'
     args['is_view'] = args['status'] == 'view'
     if args.get('id_notification') is not None:
-        args['active'] = args['is_open']
+        args['active'] = False if args['is_view'] else True
         answer = provider.update_notifications_user(args)
     if status:
         answer = provider.update_status(args)
