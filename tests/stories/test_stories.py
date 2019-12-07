@@ -61,5 +61,25 @@ class TestStories(unittest.TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertIsNotNone(r.text)
 
+    def test_public_stories_list(self):
+            d = {
+                names.ID_PROFILE: [1, 2, 3],
+                names.ID_STORIES: 2
+            }
+            r = req.post(HOST + '/api/stories', json=d)
+            print(r.text)
+            self.assertEqual(r.status_code, 200)
+            self.assertIsNotNone(r.text)
+
+    def test_public_stories(self):
+            d = {
+                names.ID_PROFILE: 1,
+                names.ID_STORIES: 2
+            }
+            r = req.post(HOST + '/api/stories', json=d)
+            print(r.text)
+            self.assertEqual(r.status_code, 200)
+            self.assertIsNotNone(r.text)
+
 if __name__ == '__main__':
     unittest.main()

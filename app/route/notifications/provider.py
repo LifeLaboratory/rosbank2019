@@ -14,8 +14,8 @@ class Provider:
     @staticmethod
     def insert_notifications_users(args):
         query = """
-        insert into "notifications_users" ("id_notification", "id_user", "status") 
-    VALUES ('{id_notification}', '{id_user}', '{status}')
+        insert into "notifications_users" ("id_notification", "id_user", "status", "time", "active") 
+    VALUES ('{id_notification}', '{id_user}', '{status}', NOW(), True)
         """
         return Sql.exec(query=query, args=args)
 
@@ -24,7 +24,7 @@ class Provider:
         query = """
         select notifications.* from notifications_users
         join notifications on notifications.id_notification = notifications_users.id_notification
-        where id_user = {id_user}
+        where id_user = {id_user} and active is True and NOW() > time
         """
         return Sql.exec(query=query, args=args)
 

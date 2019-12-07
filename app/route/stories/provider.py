@@ -71,6 +71,16 @@ class Provider:
         return Sql.exec(query=query, args=args)
 
     @staticmethod
+    def update_notifications_user(args):
+        query = """
+        update "notifications_users" 
+          set "active" = {active}, 
+              "time" = NOW() + interval '5 minutes'
+          where "id_notification" = {id_notification}
+            """
+        return Sql.exec(query=query, args=args)
+
+    @staticmethod
     def update_stories(args):
         query = """
         update "stories" 
@@ -106,14 +116,45 @@ class Provider:
         return Sql.exec(query=query, args=args)
 
     @staticmethod
-    def get_storis_list(args):
+    def get_stories_list(args):
         query = """
         select
           img."id_stories",
-          array_agg(img."url" order by position desc) as image
+          array_agg(img."url" order by position) as image
         from images img
         join stories str on img."id_stories" = str."id_stories"
-        where "id_user" = '{id_user}'
+        join publicated_stories ps on ps.id_stories = str.id_stories
+        where str."id_user" = '{id_user}'
         group by img."id_stories"
         """
         return Sql.exec(query=query, args=args)
+
+    @staticmethod
+    def get_all_stories():
+        query = """
+        with stories_all as(
+          select 
+            img."id_stories",
+            array_agg(img."url" order by position desc) as image
+          from images img
+          join stories str on img."id_stories" = str."id_stories"
+          group by img."id_stories"
+        ),
+        public_open as (
+          select
+            distinct 
+            ps."id_stories",
+            pr."id_profile",
+            pr."description"
+          from publicated_stories ps
+          join users u on ps."id_user" = u."id_user"
+          join profile pr on u."id_profile" = pr."id_profile"
+        )
+        select 
+          sa.*
+          , array_agg(json_build_object('id_profile',pr."id_profile", 'name', pr."description") order by pr."description") open
+        from stories_all sa
+        join public_open pr using("id_stories")
+        group by sa."id_stories", image
+        """
+        return Sql.exec(query=query)
