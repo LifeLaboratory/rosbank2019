@@ -1,0 +1,27 @@
+<md-dialog aria-label="События">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Добавление истории</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()"></md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>URL изображения</label>
+                    <input ng-model="history.url">
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="hide()">
+                Добавить
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
