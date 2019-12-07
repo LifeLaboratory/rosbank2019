@@ -39,33 +39,22 @@
 
     <section id="section1">
         <div class="container">
-            <h2 class="section-heading wow fadeInUp"><center>Доступные услуги</center></h2>
             <div class="row">
-                <div class="col-md-4 text-center">
-                    <md-card md-theme-watch onclick="location.href='/transfer';">
-                        <md-card-title ng-model="checked" ng-click="checked = !checked;">
-                            <md-card-title-text>
-                                <span class="md-headline"><img src="/img/compare_arrows_red.png" height="45px" width="45px"/> Перевод</span>
-                            </md-card-title-text>
-                        </md-card-title>
-                    </md-card>
-                </div>
-                <div class="col-md-4 text-center">
-                    <md-card md-theme-watch onclick="location.href='/convert';">
-                        <md-card-title ng-model="checked" ng-click="checked = !checked;">
-                            <md-card-title-text>
-                                <span class="md-headline"><img src="/img/monetization.png" height="45px" width="45px"/>Конвертер валют</span>
-                            </md-card-title-text>
-                        </md-card-title>
-                    </md-card>
-                </div>
-                <div class="col-md-4 text-center">
-                    <md-card md-theme-watch onclick="location.href='/qr';">
-                        <md-card-title ng-model="checked" ng-click="checked = !checked;">
-                            <md-card-title-text>
-                                <span class="md-headline"><img src="/img/center_focus_weak.png" height="45px" width="45px"/>Оплата по QR коду</span>
-                            </md-card-title-text>
-                        </md-card-title>
+                <div class="col-md-12 text-center">
+                    <md-card md-theme-watch>
+                        <md-card-content>
+                            <center>
+                                <md-input-container class="md-block" flex-gt-sm width="100%">
+                                    <label>Рубли</label>
+                                    <input ng-model="rubble" ng-change="dollar=rubble*65">
+                                </md-input-container><br />
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Доллар</label>
+                                    <input ng-model="dollar">
+                                </md-input-container>
+                                <md-button>Конвертировать</md-button>
+                            </center>
+                        </md-card-content>
                     </md-card>
                 </div>
             </div>
