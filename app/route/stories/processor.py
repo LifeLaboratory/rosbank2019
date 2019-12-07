@@ -32,7 +32,7 @@ def insert_stories(args):
     args[names.POSITION] = 0
     for i in range(len(args.get(names.URL))):
         args[names.URL] = args.get(names.URL)[i]
-        args[names.DESCRIPTION] = args.get(names.DESCRIPTION)[i]
+        args[names.DESCRIPTION] = args.get(names.DESCRIPTION)[i] if args.get(names.DESCRIPTION) else ''
         provider.insert_image(args)
         args[names.POSITION] += 1
     return names.OK
