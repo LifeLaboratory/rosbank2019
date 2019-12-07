@@ -46,12 +46,32 @@ class Provider:
         :return:
         """
         query = """
-  select
-    pr."id_profile",
-    pr."description",
-    array_agg(json_build_object('id_user',u."id_user", 'name', u."name") order by "name") users
-  from profile pr
-  join users u on pr."id_profile" = u."id_profile"
-  group by pr.id_profile
+  with feature as (
+    select
+      uf."id_user",
+      array_agg(json_build_object(
+        'name', f."name",
+        'is_android', uf."is_android",
+        'is_web', uf."is_web"
+      )) array_f
+    from
+      user_features uf
+    join features f on uf."id_features" = f."id_features"
+    group by uf."id_user"
+  )
+    select
+      pr."id_profile",
+      pr."description",
+      array_agg(
+        json_build_object(
+          'id_user',u."id_user", 
+          'name', u."name",
+          'feature', f.array_f
+        )
+      ) users
+    from profile pr
+    join users u on pr."id_profile" = u."id_profile"
+    left join feature f on u."id_user" = f."id_user"
+    group by pr.id_profile
   """
         return Sql.exec(query=query)
