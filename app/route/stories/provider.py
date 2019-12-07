@@ -138,6 +138,22 @@ class Provider:
         return Sql.exec(query=query, args=args)
 
     @staticmethod
+    def get_stories(args):
+        query = """
+          select
+            img."id_stories",
+            str."type",
+            array_agg(img."url" order by position) as image,
+            array_agg(img."description" order by position) as description
+          from images img
+          join stories str on img."id_stories" = str."id_stories"
+          join publicated_stories ps on ps.id_stories = str.id_stories
+          where img."id_stories" = {id_stories}
+          group by img."id_stories", str."type"
+          """
+        return Sql.exec(query=query, args=args)
+
+    @staticmethod
     def get_all_stories(args):
         query = """
         with stories_all as(
