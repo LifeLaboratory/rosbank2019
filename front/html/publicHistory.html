@@ -1,0 +1,28 @@
+<md-dialog aria-label="События">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Добавление истории</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()"></md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-input-container>
+                    <md-select ng-model="profile_id_for_public" placeholder="Идентификатор профиля">
+                        <md-option ng-value="user.id_profile" ng-repeat="user in profile">{{user.description}} ({{user.id_profile}})</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="hide()">
+                Добавить
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

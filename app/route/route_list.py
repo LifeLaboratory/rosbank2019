@@ -7,6 +7,7 @@ from app.route.stories.route import StoriesUpdate
 from app.route.user.route import Auth
 from app.route.profile.route import Profile
 from app.route.statistic.route import Statistic, StatisticView
+from app.route.features.route import Features
 
 ROUTES = {
     '/api/stories': Stories,
@@ -18,6 +19,7 @@ ROUTES = {
     '/api/notifications/<int:id_user>': Notification_get,
     '/api/auth': Auth,
     '/api/profile': Profile,
+    '/api/features/<int:id_user>': Features,
     '/api/statistic': Statistic,
     "/api/statistic/<int:id_user>": StatisticView,
     "/api/stories/<int:id_user>": StoriesList
