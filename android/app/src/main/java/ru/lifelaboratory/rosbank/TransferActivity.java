@@ -25,7 +25,7 @@ public class TransferActivity extends AppCompatActivity {
                 auth.addToStatistic(new Action()
                         .setIdUser(MainActivity.user.getIdUser())
                         .setIdAction(1) // переход к конвертации
-                        .setPlatform("ANDROID"))
+                        .setPlatform("android"))
                         .enqueue(new Callback<User>() {
                             @Override
                             public void onResponse(Call<User> call, Response<User> response) { }
