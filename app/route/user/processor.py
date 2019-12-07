@@ -2,6 +2,11 @@ from app.route.user.provider import Provider
 
 
 def auth(user_data):
+    """
+    Авторизация пользователя
+    :param user_data:
+    :return:
+    """
     provider = Provider()
     answer = provider.auth_user(user_data)
     if isinstance(answer, list):
@@ -10,6 +15,11 @@ def auth(user_data):
 
 
 def register(user_data):
+    """
+    Регистрация пользователя
+    :param user_data:
+    :return:
+    """
     provider = Provider()
     check = provider.check_user(user_data)
     id_user = None

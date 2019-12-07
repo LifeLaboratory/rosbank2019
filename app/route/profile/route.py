@@ -5,7 +5,9 @@ from app.api.base.base_router import BaseRouter
 
 
 class Profile(BaseRouter):
-
+    """
+    Роут для получения профиля пользователя
+    """
     def __init__(self):
         super().__init__()
         self.args = [names.FIO, names.DESCRIPTION, names.PHOTO, names.STATUS, names.TITLE]
@@ -13,17 +15,4 @@ class Profile(BaseRouter):
     def get(self):
         args = {}
         answer = get_profile(args)
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
-
-    def put(self, id_user):
-        self._read_args()
-        if id_user:
-            self.data.update({names.ID_USER: id_user})
-        answer = update_profile(self.data)
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer, 200, names.CORS_HEADERS

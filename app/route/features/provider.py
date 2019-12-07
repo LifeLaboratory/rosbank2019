@@ -2,8 +2,16 @@ from app.api.base.base_sql import Sql
 
 
 class Provider:
+    """
+    Класс для работы с функционалом в бд
+    """
     @staticmethod
     def get_feature_user(args):
+        """
+        Получить используемый функционал по ид пользователя
+        :param args:
+        :return:
+        """
         query = """
   select 
     uf.*
@@ -18,6 +26,11 @@ class Provider:
 
     @staticmethod
     def insert_feature(args):
+        """
+        Добавить функионал
+        :param args:
+        :return:
+        """
         query = """
   insert into features ("name") 
   VALUES ('{name}')

@@ -2,8 +2,16 @@ from app.api.base.base_sql import Sql
 
 
 class Provider:
+    """
+    Клас для работы с историями в бд
+    """
     @staticmethod
     def publicate_storie(args):
+        """
+        Опубликовать историю
+        :param args:
+        :return:
+        """
         query = """
   insert into publicated_stories ("id_stories", "id_user") 
   VALUES ({id_stories}, {id_user})
@@ -12,6 +20,11 @@ class Provider:
 
     @staticmethod
     def insert_stories(args):
+        """
+        Добавить историю
+        :param args:
+        :return:
+        """
         query = """
   insert into stories ("id_user", "id_creator")
   VALUES ({id_user}, {id_user})
@@ -21,6 +34,11 @@ class Provider:
 
     @staticmethod
     def stories_profile(args):
+        """
+        Получить историю по профилю
+        :param args:
+        :return:
+        """
         query = """
   select stories.* from users 
   join stories on stories."id_user" = users."id_user" and stories."type" = {type}
@@ -30,6 +48,11 @@ class Provider:
 
     @staticmethod
     def delete_images(args):
+        """
+        Удалить картинки из бд
+        :param args:
+        :return:
+        """
         query = """
   delete from images where "id_stories" = {id_stories}
   """
@@ -37,6 +60,11 @@ class Provider:
 
     @staticmethod
     def insert_image(args):
+        """
+        Добавить картинки
+        :param args:
+        :return:
+        """
         query = """
   insert into images ("id_stories", "url", "position")
   VALUES ({id_stories}, '{url}', {position})
@@ -45,6 +73,11 @@ class Provider:
 
     @staticmethod
     def select_status(args):
+        """
+        Получить статус действий
+        :param args:
+        :return:
+        """
         query = """
   select 
     True
@@ -63,6 +96,11 @@ class Provider:
 
     @staticmethod
     def update_status(args):
+        """
+        Обновить статус действий
+        :param args:
+        :return:
+        """
         query = """
   update step_action
     set "is_open" = {is_open}, 
@@ -74,6 +112,11 @@ class Provider:
 
     @staticmethod
     def update_like(args):
+        """
+        Обновить лайки, дизлайки
+        :param args:
+        :return:
+        """
         query = """
   update step_action
     set "is_like" = {is_like}::boolean
@@ -83,6 +126,11 @@ class Provider:
 
     @staticmethod
     def update_notifications_user(args):
+        """
+        Обновить уведомление для пользователя
+        :param args:
+        :return:
+        """
         query = """
   update notifications_users
     set "active" = {active}, 
@@ -93,6 +141,11 @@ class Provider:
 
     @staticmethod
     def update_stories(args):
+        """
+        Обновить историю
+        :param args:
+        :return:
+        """
         query = """
   update stories
     set "id_creator" = {id_user}
@@ -102,6 +155,11 @@ class Provider:
 
     @staticmethod
     def insert_notifications_users(args):
+        """
+        Получить список историй для пользователя
+        :param args:
+        :return:
+        """
         query = """
   insert into notifications_users ("id_notification", "id_user", "status") 
   VALUES ('{id_notification}', '{id_user}', '{status}')
@@ -128,6 +186,11 @@ class Provider:
 
     @staticmethod
     def get_stories_list(args):
+        """
+        Получить список историй для пользователя
+        :param args:
+        :return:
+        """
         query = """
 
   select nd."id_stories"
@@ -148,6 +211,11 @@ class Provider:
 
     @staticmethod
     def get_stories(args):
+        """
+        Получить историю
+        :param args:
+        :return:
+        """
         query = """
   select
     img."id_stories",
@@ -164,6 +232,11 @@ class Provider:
 
     @staticmethod
     def get_all_stories(args):
+        """
+        Получить все истории для админ панели
+        :param args:
+        :return:
+        """
         query = """
   with stories_all as(
     select 

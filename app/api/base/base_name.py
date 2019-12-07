@@ -24,6 +24,7 @@ PASSWORD = "password"
 TYPE = "type"
 QUERY = "query"
 STATUS = "status"
+IMAGE = 'image'
 FIELD = "field"
 ID_NAME = "id_nom"
 ID_USER = "id_user"
@@ -175,3 +176,8 @@ print_form_fields = [
     tel_number,
     email
 ]
+
+CORS_HEADERS = {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }
