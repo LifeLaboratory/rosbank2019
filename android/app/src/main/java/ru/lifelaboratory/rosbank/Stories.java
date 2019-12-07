@@ -7,14 +7,14 @@ import java.util.List;
 public class Stories {
 
     @SerializedName("id_stories")
-    private String id;
+    private Integer id;
     private List<String> image;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public Stories setId(String id) {
+    public Stories setId(Integer id) {
         this.id = id;
         return this;
     }
