@@ -16,13 +16,13 @@ public interface ServerAPI {
     @POST("/api/auth")
     Call<User> auth(@Body User user);
 
-    @GET("/api/stories/{id_user}")
+    @GET("/api/stories/{id_user}?type=1")
     Call<List<Stories>> getStories(@Path("id_user") Integer id);
 
     @GET("/api/notifications/{id_user}")
     Call<List<Notification>> getNotification(@Path("id_user") Integer id);
 
-    @POST("/api/stories/view")
+    @POST("/api/stories/update_status")
     Call<Object> sendView(@Body ViewStories id);
 
 }

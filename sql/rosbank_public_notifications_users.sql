@@ -1,0 +1,3 @@
+INSERT INTO public.notifications_users (id_notifications_users, id_notification, id_user, status, time, active) VALUES (1, 9, 1, 'open', '2019-12-07 10:58:54.976395', true);
+INSERT INTO public.notifications_users (id_notifications_users, id_notification, id_user, status, time, active) VALUES (3, 10, 2, 'open', '2019-12-07 10:58:54.976395', true);
+INSERT INTO public.notifications_users (id_notifications_users, id_notification, id_user, status, time, active) VALUES (2, 9, 2, 'open', '2019-12-07 10:58:54.976395', true);
