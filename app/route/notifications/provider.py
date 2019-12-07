@@ -5,8 +5,8 @@ class Provider:
     @staticmethod
     def insert_notification(args):
         query = """
-  insert into notifications ("name", "url") 
-  VALUES ('{name}', '{url}')
+  insert into notifications ("name", "url", "id_stories") 
+  VALUES ('{name}', '{url}', {id_stories})
   returning "id_notification"
   """
         return Sql.exec(query=query, args=args)

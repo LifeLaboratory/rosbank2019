@@ -10,7 +10,8 @@ class Notification(BaseRouter):
     """
     def __init__(self):
         super().__init__()
-        self.args = [names.ID_NOTIFICATION, names.NAME, names.URL, names.ID_PROFILE, names.STATUS]
+        self.args = [names.ID_NOTIFICATION, names.NAME, names.URL, names.ID_PROFILE, names.STATUS, names.ID_STORIES,
+                     names.ID_STORIES]
 
     def post(self):
         self._read_args()

@@ -5,7 +5,7 @@ class Provider:
     @staticmethod
     def publicate_storie(args):
         query = """
-  insert into "publicated_stories" ("id_stories", "id_user") 
+  insert into publicated_stories ("id_stories", "id_user") 
   VALUES ({id_stories}, {id_user})
   """
         return Sql.exec(query=query, args=args)
@@ -129,14 +129,36 @@ class Provider:
     @staticmethod
     def get_stories_list(args):
         query = """
+
+  select nd."id_stories"
+    , nd."image"
+  from (
+     select
+       img."id_stories",
+       array_agg(img."url" order by position) as image
+     from images img
+     join stories str on img."id_stories" = str."id_stories" and str."type" = 1
+     where str."id_user" = {id_user}
+     group by img."id_stories"
+   ) nd
+   join publicated_stories ps on ps."id_stories" = nd."id_stories"
+   where ps."id_user" = {id_user}
+   """
+        return Sql.exec(query=query, args=args)
+
+    @staticmethod
+    def get_stories(args):
+        query = """
   select
     img."id_stories",
-    array_agg(img."url" order by position) as image
+    str."type",
+    array_agg(img."url" order by position) as image,
+    array_agg(img."description" order by position) as description
   from images img
-  join stories str on img."id_stories" = str."id_stories" and str."type" = {type}
-  join publicated_stories ps on ps."id_stories" = str."id_stories"
-  where str."id_user" = {id_user}
-  group by img."id_stories"
+  join stories str on img."id_stories" = str."id_stories"
+  join publicated_stories ps on ps.id_stories = str.id_stories
+  where img."id_stories" = {id_stories}
+  group by img."id_stories", str."type"
   """
         return Sql.exec(query=query, args=args)
 

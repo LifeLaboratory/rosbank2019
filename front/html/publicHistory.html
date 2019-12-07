@@ -2,7 +2,7 @@
     <form ng-cloak>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>Добавление истории</h2>
+                <h2>Публикация истории</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cancel()"></md-button>
             </div>
@@ -11,7 +11,7 @@
         <md-dialog-content>
             <div class="md-dialog-content">
                 <md-input-container>
-                    <md-select ng-model="profile_id_for_public" placeholder="Идентификатор профиля">
+                    <md-select ng-model="profile_id_for_public" placeholder="Идентификатор профиля" multiple="true">
                         <md-option ng-value="user.id_profile" ng-repeat="user in profile">{{user.description}} ({{user.id_profile}})</md-option>
                     </md-select>
                 </md-input-container>

@@ -3,22 +3,25 @@ package ru.lifelaboratory.rosbank;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.rahuljanagouda.statusstories.StatusStoriesActivity;
 import com.squareup.picasso.Picasso;
+import com.tooltip.OnClickListener;
+import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -41,17 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     static public Integer[] idResources = null;
 
-    public String[] resources = null; //new String[]{
-//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00001.jpg?alt=media&token=460667e4-e084-4dc5-b873-eefa028cec32",
-//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00002.jpg?alt=media&token=e8e86192-eb5d-4e99-b1a8-f00debcdc016",
-//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00004.jpg?alt=media&token=af71cbf5-4be3-4f8a-8a2b-2994bce38377",
-//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00005.jpg?alt=media&token=7d179938-c419-44f4-b965-1993858d6e71",
-//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00006.jpg?alt=media&token=cdd14cf5-6ed0-4fb7-95f5-74618528a48b",
-//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00007.jpg?alt=media&token=98524820-6d7c-4fb4-89b1-65301e1d6053",
-//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00008.jpg?alt=media&token=7ef9ed49-3221-4d49-8fb4-2c79e5dab333",
-//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00009.jpg?alt=media&token=00d56a11-7a92-4998-a05a-e1dd77b02fe4",
-//            "https://firebasestorage.googleapis.com/v0/b/firebase-satya.appspot.com/o/images%2Fi00010.jpg?alt=media&token=24f8f091-acb9-432a-ae0f-7e6227d18803",
-//    };
+    public String[] resources = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,29 +106,31 @@ public class MainActivity extends AppCompatActivity {
                     .enqueue(new Callback<List<Stories>>() {
                         @Override
                         public void onResponse(Call<List<Stories>> call, Response<List<Stories>> response) {
-                            List<String> tmp = new ArrayList<>();
-                            List<Integer> tmpInteger = new ArrayList<>();
-                            for (int i = 0; i < response.body().size(); i++) {
-                                for (int j = 0; j < response.body().get(i).getImage().size(); j++) {
-                                    ImageView img = new ImageView(MainActivity.this);
-                                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                                    lp.setMargins(32, 32, 32, 32);
-                                    img.setLayoutParams(lp);
-                                    img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                                    Picasso.with(MainActivity.this)
-                                            .load(response.body().get(i).getImage().get(j))
-                                            .placeholder(R.drawable.tmp)
-                                            .error(R.drawable.tmp)
-                                            .into(img);
-                                    ((LinearLayout) findViewById(R.id.list_stories)).addView(img);
-                                    tmp.add(response.body().get(i).getImage().get(j));
-                                    tmpInteger.add(response.body().get(i).getId());
+                            if (response.body() != null) {
+                                List<String> tmp = new ArrayList<>();
+                                List<Integer> tmpInteger = new ArrayList<>();
+                                for (int i = 0; i < response.body().size(); i++) {
+                                    for (int j = 0; j < response.body().get(i).getImage().size(); j++) {
+                                        ImageView img = new ImageView(MainActivity.this);
+                                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                                        lp.setMargins(32, 32, 32, 32);
+                                        img.setLayoutParams(lp);
+                                        img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                        Picasso.with(MainActivity.this)
+                                                .load(response.body().get(i).getImage().get(j))
+                                                .placeholder(R.drawable.tmp)
+                                                .error(R.drawable.tmp)
+                                                .into(img);
+                                        ((LinearLayout) findViewById(R.id.list_stories)).addView(img);
+                                        tmp.add(response.body().get(i).getImage().get(j));
+                                        tmpInteger.add(response.body().get(i).getId());
+                                    }
                                 }
+                                resources = new String[tmp.size()];
+                                idResources = new Integer[tmp.size()];
+                                tmp.toArray(resources);
+                                tmpInteger.toArray(idResources);
                             }
-                            resources = new String[tmp.size()];
-                            idResources = new Integer[tmp.size()];
-                            tmp.toArray(resources);
-                            tmpInteger.toArray(idResources);
                         }
 
                         @Override
@@ -197,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                     auth.addToStatistic(new Action()
                             .setIdUser(MainActivity.user.getIdUser())
                             .setIdAction(3) // переход к переводам
-                            .setPlatform("ANDROID"))
+                            .setPlatform("android"))
                             .enqueue(new Callback<User>() {
                                 @Override
                                 public void onResponse(Call<User> call, Response<User> response) {
@@ -210,8 +205,24 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, QRPaymentActivity.class));
                 }
             });
+
+            Intent intent = getIntent();
+            String link = intent.getDataString();
+            if (link != null) {
+                Log.e("ROSBANK2019", link);
+                if (link.split("/")[link.split("/").length - 1].equals("convert")) {
+                    startActivity(new Intent(MainActivity.this, CurrencyTransferActivity.class));
+                } else if(link.split("/")[link.split("/").length - 1].equals("transfer")) {
+                    startActivity(new Intent(MainActivity.this, TransferActivity.class));
+                } else if(link.split("/")[link.split("/").length - 1].equals("qr")){
+                    startActivity(new Intent(MainActivity.this, QRPaymentActivity.class));
+                }
+            }
         }
     }
+
+    List<String> image = new ArrayList<>();
+    List<String> description = new ArrayList<>();
 
     @Override
     protected void onResume() {
@@ -219,24 +230,65 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String action = intent.getAction();
-        Log.e("ROSBANK2019", action);
-        if (action.equals("android.intent.action.MAIN")) {
-            ServerAPI auth = MainActivity.server.create(ServerAPI.class);
-            if (idResources != null)
-                for (int i = 0; i < idResources.length; i++) {
-                    auth.sendView(new ViewStories()
-                            .setIdUser(MainActivity.user.getIdUser())
-                            .setIdStories(idResources[i])
-                            .setStatus("view"))
-                            .enqueue(new Callback<Object>() {
-                                @Override
-                                public void onResponse(Call<Object> call, Response<Object> response) { }
-                                @Override
-                                public void onFailure(Call<Object> call, Throwable t) {
-                                    Log.e("ROSBANK2019", t.getMessage());
-                                }
-                            });
+        if (action != null) {
+            Log.e("ROSBANK2019", action);
+            if (action.equals("android.intent.action.MAIN")) {
+                ServerAPI auth = MainActivity.server.create(ServerAPI.class);
+                if (idResources != null)
+                    for (int i = 0; i < idResources.length; i++) {
+                        auth.sendView(new ViewStories()
+                                .setIdUser(MainActivity.user.getIdUser())
+                                .setIdStories(idResources[i])
+                                .setStatus("view"))
+                                .enqueue(new Callback<Object>() {
+                                    @Override
+                                    public void onResponse(Call<Object> call, Response<Object> response) { }
+
+                                    @Override
+                                    public void onFailure(Call<Object> call, Throwable t) {
+                                        Log.e("ROSBANK2019", t.getMessage());
+                                    }
+                                });
+                    }
+            } else if(action.equals("lifelaboratory.from_notification_service")) {
+
+                if (intent.getIntExtra("TYPE", -1) == 2) {
+                    Collections.addAll(image, intent.getStringExtra("image").split(";"));
+                    Collections.addAll(description, intent.getStringExtra("description").split(";"));
+
+                    int resID = getResources().getIdentifier(image.get(0), "id", getPackageName());
+                    if (findViewById(resID) != null) {
+                        new Tooltip.Builder(findViewById(resID))
+                                .setBackgroundColor(Color.parseColor("#000000"))
+                                .setTextColor(Color.parseColor("#ffffff"))
+                                .setTextSize(25.0f)
+                                .setOnClickListener(new OnClickListener() {
+                                    @Override
+                                    public void onClick(@NonNull Tooltip tooltip) {
+                                        tooltip.dismiss();
+                                        if (image.size() > 0) {
+                                            image.remove(0);
+                                            description.remove(0);
+                                            StringBuilder imageString = new StringBuilder();
+                                            StringBuilder descriptionString = new StringBuilder();
+                                            for (int j = 0; j < image.size(); j++) {
+                                                imageString.append(image.get(j)).append(";");
+                                                descriptionString.append(description.get(j)).append(";");
+                                            }
+                                            startActivity(new Intent(MainActivity.this, MainActivity.class)
+                                                    .setAction("lifelaboratory.from_notification_service")
+                                                    .putExtra("TYPE", 2)
+                                                    .putExtra("image", imageString.toString())
+                                                    .putExtra("description", descriptionString.toString()));
+                                            overridePendingTransition(0, 0);
+                                        }
+                                    }
+                                })
+                                .setText(description.get(0)).show();
+                    }
                 }
+            }
         }
     }
+
 }
