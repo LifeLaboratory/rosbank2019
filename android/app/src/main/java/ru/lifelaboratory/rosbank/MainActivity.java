@@ -29,6 +29,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import ru.lifelaboratory.rosbank.entity.Action;
+import ru.lifelaboratory.rosbank.entity.Stories;
+import ru.lifelaboratory.rosbank.entity.User;
+import ru.lifelaboratory.rosbank.entity.ViewStories;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,10 +63,10 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
 
                     ServerAPI auth = MainActivity.server.create(ServerAPI.class);
-                    auth.auth(
-                            new User()
-                                    .setLogin(((EditText) findViewById(R.id.login)).getText().toString())
-                                    .setPassword(((EditText) findViewById(R.id.password)).getText().toString()))
+                    User user = new User();
+                    user.setLogin(((EditText) findViewById(R.id.login)).getText().toString());
+                    user.setPassword(((EditText) findViewById(R.id.password)).getText().toString());
+                    auth.auth(user)
                             .enqueue(new Callback<User>() {
                                 @Override
                                 public void onResponse(Call<User> call, Response<User> response) {
@@ -76,10 +80,10 @@ public class MainActivity extends AppCompatActivity {
                                                 .putString("password", ((EditText) findViewById(R.id.login)).getText().toString())
                                                 .putInt("id", response.body().getIdUser())
                                                 .apply();
-                                        MainActivity.user = new User()
-                                                .setIdUser(response.body().getIdUser())
-                                                .setLogin(((EditText) findViewById(R.id.login)).getText().toString())
-                                                .setPassword(((EditText) findViewById(R.id.password)).getText().toString());
+                                        MainActivity.user = new User();
+                                        MainActivity.user.setIdUser(response.body().getIdUser());
+                                        MainActivity.user.setLogin(((EditText) findViewById(R.id.login)).getText().toString());
+                                        MainActivity.user.setPassword(((EditText) findViewById(R.id.password)).getText().toString());
                                         startActivity(new Intent(MainActivity.this, MainActivity.class));
                                     }
                                 }
@@ -94,10 +98,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             startService(new Intent(MainActivity.this, NotificationService.class));
 
-            MainActivity.user = new User()
-                    .setIdUser(sharedPreferences.getInt("id", -1))
-                    .setLogin(sharedPreferences.getString("login", ""))
-                    .setPassword(sharedPreferences.getString("password", ""));
+            MainActivity.user = new User();
+            MainActivity.user.setIdUser(sharedPreferences.getInt("id", -1));
+            MainActivity.user.setLogin(sharedPreferences.getString("login", ""));
+            MainActivity.user.setPassword(sharedPreferences.getString("password", ""));
 
             setContentView(R.layout.activity_main);
 
@@ -111,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
                                 List<Integer> tmpInteger = new ArrayList<>();
                                 for (int i = 0; i < response.body().size(); i++) {
                                     for (int j = 0; j < response.body().get(i).getImage().size(); j++) {
+                                        Log.e("ROSBNAK2019", response.body().get(i).getImage().get(j));
                                         ImageView img = new ImageView(MainActivity.this);
                                         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
                                         lp.setMargins(32, 32, 32, 32);
@@ -143,10 +148,11 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     ServerAPI auth = MainActivity.server.create(ServerAPI.class);
                     for (int i = 0; i < idResources.length; i++) {
-                        auth.sendView(new ViewStories()
-                                .setIdUser(MainActivity.user.getIdUser())
-                                .setIdStories(idResources[i])
-                                .setStatus("open"))
+                        ViewStories viewStories = new ViewStories();
+                        viewStories.setIdUser(MainActivity.user.getIdUser());
+                        viewStories.setIdStories(idResources[i]);
+                        viewStories.setStatus("open");
+                        auth.sendView(viewStories)
                                 .enqueue(new Callback<Object>() {
                                     @Override
                                     public void onResponse(Call<Object> call, Response<Object> response) {
@@ -189,10 +195,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     ServerAPI auth = MainActivity.server.create(ServerAPI.class);
-                    auth.addToStatistic(new Action()
-                            .setIdUser(MainActivity.user.getIdUser())
-                            .setIdAction(3) // переход к переводам
-                            .setPlatform("android"))
+                    Action action = new Action();
+                    action.setIdUser(MainActivity.user.getIdUser());
+                    action.setIdAction(3); // переход к переводам
+                    action.setPlatform("android");
+                    auth.addToStatistic(action)
                             .enqueue(new Callback<User>() {
                                 @Override
                                 public void onResponse(Call<User> call, Response<User> response) {
@@ -236,10 +243,11 @@ public class MainActivity extends AppCompatActivity {
                 ServerAPI auth = MainActivity.server.create(ServerAPI.class);
                 if (idResources != null)
                     for (int i = 0; i < idResources.length; i++) {
-                        auth.sendView(new ViewStories()
-                                .setIdUser(MainActivity.user.getIdUser())
-                                .setIdStories(idResources[i])
-                                .setStatus("view"))
+                        ViewStories viewStories = new ViewStories();
+                        viewStories.setIdUser(MainActivity.user.getIdUser());
+                        viewStories.setIdStories(idResources[i]);
+                        viewStories.setStatus("view");
+                        auth.sendView(viewStories)
                                 .enqueue(new Callback<Object>() {
                                     @Override
                                     public void onResponse(Call<Object> call, Response<Object> response) { }
@@ -262,6 +270,8 @@ public class MainActivity extends AppCompatActivity {
                                 .setBackgroundColor(Color.parseColor("#000000"))
                                 .setTextColor(Color.parseColor("#ffffff"))
                                 .setTextSize(25.0f)
+                                .setArrowHeight(50.0f)
+                                .setArrowWidth(50.0f)
                                 .setOnClickListener(new OnClickListener() {
                                     @Override
                                     public void onClick(@NonNull Tooltip tooltip) {

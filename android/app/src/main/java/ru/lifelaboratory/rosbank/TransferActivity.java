@@ -9,6 +9,8 @@ import android.widget.Toast;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.lifelaboratory.rosbank.entity.Action;
+import ru.lifelaboratory.rosbank.entity.User;
 
 public class TransferActivity extends AppCompatActivity {
 
@@ -22,10 +24,11 @@ public class TransferActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ServerAPI auth = MainActivity.server.create(ServerAPI.class);
-                auth.addToStatistic(new Action()
-                        .setIdUser(MainActivity.user.getIdUser())
-                        .setIdAction(1) // переход к конвертации
-                        .setPlatform("android"))
+                Action action = new Action();
+                action.setIdUser(MainActivity.user.getIdUser());
+                action.setIdAction(1); // переход к конвертации
+                action.setPlatform("android");
+                auth.addToStatistic(action)
                         .enqueue(new Callback<User>() {
                             @Override
                             public void onResponse(Call<User> call, Response<User> response) { }

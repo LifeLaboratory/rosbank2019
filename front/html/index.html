@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <title>[Life] Laboratory | Главная страница</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -51,6 +52,17 @@
                 console.log(reason);
             });
 
+            $scope.tutorials = [];
+            $http({
+                method: 'GET',
+                url: "http://100.64.17.109:13451/api/notifications/1"
+            }).then(function (value) {
+                console.log(value);
+                $scope.tutorials = value.data;
+            }, function (reason) {
+                console.log(reason);
+            });
+
             $scope.showHistory = function(ev, id_user) {
                 $http({
                     method: 'GET',
@@ -68,6 +80,7 @@
                     templateUrl: 'html/history.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
+                    preserveScope: true,
                     scope: $scope,
                     clickOutsideToClose: true
                 })
@@ -114,6 +127,7 @@
                     templateUrl: 'html/addHistory.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
+                    preserveScope: true,
                     scope: $scope,
                     clickOutsideToClose: true
                 })
@@ -152,6 +166,64 @@
                     templateUrl: 'html/publicHistory.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
+                    scope: $scope,
+                    preserveScope: true,
+                    clickOutsideToClose: true
+                })
+                    .then(function(answer) {
+                        $scope.status = 'You said the information was "' + answer + '".';
+                    }, function() {
+                        $scope.status = 'You cancelled the dialog.';
+                    });
+            };
+
+            function DialogControllerPublicTutorial($scope, $mdDialog) {
+                $scope.hide = function() {
+                    var image = [$scope.first_element, $scope.second_element, $scope.third_element, $scope.fourth_element];
+                    while(image.indexOf(undefined) >= 0) {
+                        image.splice(image.indexOf(undefined), 1);
+                    }
+
+                    var description = [$scope.first_element_text, $scope.second_element_text, $scope.third_element_text, $scope.fourth_element_text]
+                    while(description.indexOf(undefined) >= 0) {
+                        description.splice(description.indexOf(undefined), 1);
+                    }
+
+                    console.log({
+                        'url': image,
+                        'description': description,
+                        'id_user': 1,
+                        'type': 2
+                    });
+                    $http({
+                        method: 'POST',
+                        url: "http://100.64.17.109:13451/api/stories/add",
+                        data: {
+                            'url': image,
+                            'description': description,
+                            'id_user': 1,
+                            'type': 2
+                        }
+                    }).then(function (value) {
+                        console.log(value);
+                    }, function (reason) {
+                        console.log(reason);
+                    });
+                    $mdDialog.cancel();
+                };
+                $scope.cancel = function() {
+                    $mdDialog.cancel();
+                };
+            }
+
+            $scope.showAddTutorialDialog = function(ev, idStory) {
+                $scope.id_story = idStory;
+                $mdDialog.show({
+                    controller: DialogControllerPublicTutorial,
+                    templateUrl: 'html/publicTutorial.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    preserveScope: true,
                     scope: $scope,
                     clickOutsideToClose: true
                 })
@@ -216,6 +288,9 @@
     <title>Главная</title>
 </head>
 <style>
+    body, html {
+        background-color: #fff;
+    }
     .sample-show-hide {
         transition: all linear 0.5s;
     }
@@ -258,19 +333,31 @@
                     <md-card ng-repeat="user in profile" md-theme-watch>
                         <md-card-title ng-model="checked" ng-click="checked = !checked;">
                             <md-card-title-text>
-                                <span class="md-headline">Профиль #{{user.id_profile}}: "{{user.description}}"</span>
+                                <span class="md-headline">Профиль "{{user.description}}"</span>
                             </md-card-title-text>
                         </md-card-title>
                         <md-card-content class="content-area sample-show-hide" ng-show="checked">
                             <md-list>
                                 <md-list-item class="md-3-line" ng-repeat="u in user.users">
                                     <div class="md-list-item-text">
-                                        <h3>{{u.name}}</h3>
-                                        <h4>Идентификатор: {{u.id_user}}</h4>
-<!--                                           <p>{{item.notes}}</p>-->
+                                        <h2>{{u.name}}</h2>
+                                        <table style="width: 100%" class="table table-striped">
+                                            <thead>
+                                                <th>Услуга</th>
+                                                <th>Android</th>
+                                                <th>Web</th>
+                                                <th></th>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="feature in u.feature">
+                                                    <td>{{feature.name}}</td>
+                                                    <td>{{feature.is_android}}</td>
+                                                    <td>{{feature.is_web}}</td>
+                                                    <td>{{draw_data($index, u.name, u.android, u.web)}}<div id="my_dataviz{{$index}}"></div></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <md-button class="md-secondary" ng-click="showHistory($event, u.id_user)">Подробнее</md-button>
-                                    <md-divider ng-if="!$last"></md-divider>
                                 </md-list-item>
                             </md-list>
                         </md-card-content>
@@ -283,7 +370,7 @@
     <section id="section2" style="margin-top: 50px;">
         <div class="container">
             <div class="row">
-                <div class="col-md-8 text-center offset-md-2">
+                <div class="col-md-6 text-center">
                     <h2 class="section-heading wow fadeInUp">Истории</h2>
                     <center><md-button class="md-secondary" ng-click="showAddDialog($event)">Добавить</md-button></center>
                     <md-card ng-repeat="story in stories" md-theme-watch>
@@ -300,31 +387,33 @@
                         </md-card-footer>
                     </md-card>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="section3" style="margin-top: 50px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 text-center offset-md-2">
-                    <h2 class="section-heading wow fadeInUp">Функции пользователей</h2>
-                    <table style="width: 100%" class="table table-striped">
-                        <thead>
-                            <th>Пользователь</th>
-                            <th>Услуга</th>
-                            <th>Android</th>
-                            <th>Web</th>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="feature in features">
-                            <td>{{feature.user_name}} ({{feature.id_user}})</td>
-                            <td>{{feature.name}}</td>
-                            <td>{{feature.is_android}}</td>
-                            <td>{{feature.is_web}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="col-md-6 text-center">
+                    <h2 class="section-heading wow fadeInUp">Туториал</h2>
+                    <center><md-button class="md-secondary" ng-click="showAddTutorialDialog($event)">Добавить</md-button></center>
+                    <md-card ng-repeat="tutorial in tutorials" md-theme-watch>
+                        <md-card-title ng-model="checked" ng-click="checked = !checked;">
+                            <md-card-title-text>
+                                <span class="md-headline">{{tutorial.name}}</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                        <md-card-content class="content-area sample-show-hide" ng-show="checked">
+                            <table style="width: 100%" class="table table-striped">
+                                <thead>
+                                    <th>Компонент</th>
+                                    <th>Текст подсказки</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="img in tutorial.image">
+                                        <td>{{img}}</td>
+                                        <td>{{tutorial.description[$index]}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </md-card-content>
+                        <md-card-footer>
+                            <md-button ng-click="showPublicDialog($event, tutorial.id_notification)">Опубликовать</md-button>
+                        </md-card-footer>
+                    </md-card>
                 </div>
             </div>
         </div>

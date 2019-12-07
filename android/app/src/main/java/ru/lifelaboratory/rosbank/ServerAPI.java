@@ -7,6 +7,11 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import ru.lifelaboratory.rosbank.entity.Action;
+import ru.lifelaboratory.rosbank.entity.Notification;
+import ru.lifelaboratory.rosbank.entity.Stories;
+import ru.lifelaboratory.rosbank.entity.User;
+import ru.lifelaboratory.rosbank.entity.ViewStories;
 
 public interface ServerAPI {
 

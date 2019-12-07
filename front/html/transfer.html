@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <title>[Life] Laboratory | Перевод по номеру телефона</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -13,18 +14,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-messages.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css" />
-    <script src="https://d3js.org/d3.v4.js"></script>
-    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script type="text/javascript">
         var app = angular.module("Index", ['ngMaterial']);
         app.controller("IndexController", function($scope, $http, $mdDialog){
 
         });
     </script>
-    <title>Главная</title>
 </head>
-<body id="home" ng-app="Index" ng-controller="IndexController">
+<body ng-app="Index" ng-controller="IndexController">
 <div class="body-wrapper">
+    <!--  Шапка сайта  -->
     <header class="page-header">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -37,27 +36,29 @@
         </div>
     </header>
 
-    <section id="section1" style="margin-top: 50px;">
+    <!--  Форма перевода  -->
+    <section id="section1">
         <div class="container">
             <h2 class="section-heading wow fadeInUp"><center>Перевод</center></h2>
             <div class="row">
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container class="md-block">
                     <label>Номер телефона</label>
-                    <input>
-                </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm>
+                    <input type="text">
+                </md-input-container><br />
+                <md-input-container class="md-block">
                     <label>Сообщение пользователя</label>
-                    <input>
-                </md-input-container>
+                    <input type="text"/>
+                </md-input-container><br />
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>Сумма</label>
-                    <input>
+                    <input type="number">
                 </md-input-container>
                 <md-button>Отправить</md-button>
             </div>
         </div>
     </section>
 
+    <!--  Подвал страницы  -->
     <section class="footer">
         <div class="container">
             <div class="row">
