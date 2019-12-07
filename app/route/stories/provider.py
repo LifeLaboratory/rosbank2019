@@ -110,7 +110,7 @@ class Provider:
         query = """
         select
           img."id_stories",
-          array_agg(img."url" order by position desc) as image
+          array_agg(img."url" order by position) as image
         from images img
         join stories str on img."id_stories" = str."id_stories"
         join publicated_stories ps on ps.id_stories = str.id_stories
