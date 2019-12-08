@@ -57,6 +57,16 @@ with
   join features f on uf."id_features" = f."id_features"
   group by uf."id_user"
   ),
+  count_is_statistic as (
+    select
+      uf."id_user", 
+      uf."id_action", 
+    count(1) filter(where "platform" = 'web') as "count_web",
+    count(1) filter(where "platform" = 'android') as "count_android"
+  from statistic_action uf
+  group by uf."id_user", 
+      uf."id_action"
+  ),
   feature as (
     select
       uf."id_user",
@@ -70,7 +80,7 @@ with
     from
       user_features uf
     join features f on uf."id_features" = f."id_features"
-    join count_is_feature cif on cif."id_user" = uf."id_user"
+    join count_is_statistic cif on cif."id_user" = uf."id_user" and "id_action" = uf."id_features"
     group by uf."id_user"
   ),
     actions_agg as (

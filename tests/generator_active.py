@@ -5,7 +5,9 @@ from time import sleep
 from json import dumps, loads
 
 
-platform = ['android', 'web']
+# platform = ['android', 'web']
+platform = ['android', 'android', 'android', 'web']
+# platform = ['web']
 
 
 def create_post(d):
@@ -14,8 +16,8 @@ def create_post(d):
 
 for i in range(1, 1000):
     d = {
-        ID_USER: randint(1, 123456789) % 5,
-        ID_ACTION: randint(1, 123456789) % 5,
+        ID_USER: randint(7, 8),
+        ID_ACTION: randint(1, 3),
         NAME_PLATFORM: choice(platform)
     }
     create_post(loads(dumps(d)))
