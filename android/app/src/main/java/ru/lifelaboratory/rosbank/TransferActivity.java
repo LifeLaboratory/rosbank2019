@@ -9,23 +9,36 @@ import android.widget.Toast;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.lifelaboratory.rosbank.entity.Action;
+import ru.lifelaboratory.rosbank.entity.User;
 
+/**
+ * Класс для экрана "Переводы"
+ * @author Boris Bockarev <Boris-Bochkaryov@yandex.ru>
+ */
 public class TransferActivity extends AppCompatActivity {
 
+    /**
+     * Создание активности
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transfer);
 
 
+        // кнопка "Конвертировать"
         ((Button) findViewById(R.id.btn_send)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // логирование действия пользователя
                 ServerAPI auth = MainActivity.server.create(ServerAPI.class);
-                auth.addToStatistic(new Action()
-                        .setIdUser(MainActivity.user.getIdUser())
-                        .setIdAction(1) // переход к конвертации
-                        .setPlatform("android"))
+                Action action = new Action();
+                action.setIdUser(MainActivity.user.getIdUser());
+                action.setIdAction(1); // переход к конвертации
+                action.setPlatform("android");
+                auth.addToStatistic(action)
                         .enqueue(new Callback<User>() {
                             @Override
                             public void onResponse(Call<User> call, Response<User> response) { }

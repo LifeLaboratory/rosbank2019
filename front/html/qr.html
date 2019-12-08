@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <title>[Life] Laboratory | Оплата по QR-коду</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -21,10 +22,10 @@
 
         });
     </script>
-    <title>Главная</title>
 </head>
 <body id="home" ng-app="Index" ng-controller="IndexController">
 <div class="body-wrapper">
+    <!-- шапка страницы -->
     <header class="page-header">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -36,14 +37,18 @@
             </nav>
         </div>
     </header>
+    <!-- конец шапки страницы -->
 
+    <!-- основной блок страницы - отображение QR для оплаты -->
     <section id="section1">
         <div class="container">
             <h2 class="section-heading wow fadeInUp"><center>Для приема платежей покажите QR-код покупателю</center></h2>
             <center><img src="img/qr_code.png" width="75%" /></center>
         </div>
     </section>
+    <!-- конец основного блока страницы -->
 
+    <!-- подвал страницы -->
     <section class="footer">
         <div class="container">
             <div class="row">
@@ -53,6 +58,7 @@
             </div>
         </div>
     </section>
+    <!-- конец подвала страницы -->
 </div>
 </body>
 </html>

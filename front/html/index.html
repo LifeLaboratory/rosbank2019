@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <title>[Life] Laboratory | Главная страница</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -18,6 +19,7 @@
     <script type="text/javascript">
         var app = angular.module("Index", ['ngMaterial']);
         app.controller("IndexController", function($scope, $http, $mdDialog){
+            // запонение массивов данных
             $scope.profile = [];
             $http({
                 method: 'GET',
@@ -32,7 +34,7 @@
             $scope.stories = [];
             $http({
                 method: 'GET',
-                url: "http://100.64.17.109:13451/api/stories?type=1"
+                url: "http://100.64.17.109:13451/api/stories?type=1&id_user=1"
             }).then(function (value) {
                 console.log(value);
                 $scope.stories = value.data;
@@ -47,6 +49,17 @@
             }).then(function (value) {
                 console.log(value);
                 $scope.features = value.data;
+            }, function (reason) {
+                console.log(reason);
+            });
+
+            $scope.tutorials = [];
+            $http({
+                method: 'GET',
+                url: "http://100.64.17.109:13451/api/notifications/1"
+            }).then(function (value) {
+                console.log(value);
+                $scope.tutorials = value.data;
             }, function (reason) {
                 console.log(reason);
             });
@@ -68,14 +81,11 @@
                     templateUrl: 'html/history.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
+                    preserveScope: true,
                     scope: $scope,
                     clickOutsideToClose: true
                 })
-                    .then(function(answer) {
-                        $scope.status = 'You said the information was "' + answer + '".';
-                    }, function() {
-                        $scope.status = 'You cancelled the dialog.';
-                    });
+                    .then(function(answer) {}, function() {});
             };
 
             function DialogController($scope, $mdDialog) {
@@ -114,14 +124,11 @@
                     templateUrl: 'html/addHistory.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
+                    preserveScope: true,
                     scope: $scope,
                     clickOutsideToClose: true
                 })
-                    .then(function(answer) {
-                        $scope.status = 'You said the information was "' + answer + '".';
-                    }, function() {
-                        $scope.status = 'You cancelled the dialog.';
-                    });
+                    .then(function(answer) {}, function() {});
             };
 
             function DialogControllerPublicHistory($scope, $mdDialog) {
@@ -153,15 +160,59 @@
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     scope: $scope,
+                    preserveScope: true,
                     clickOutsideToClose: true
                 })
-                    .then(function(answer) {
-                        $scope.status = 'You said the information was "' + answer + '".';
-                    }, function() {
-                        $scope.status = 'You cancelled the dialog.';
-                    });
+                    .then(function(answer) {}, function() {});
             };
 
+            function DialogControllerPublicTutorial($scope, $mdDialog) {
+                $scope.hide = function() {
+                    var image = [$scope.first_element, $scope.second_element, $scope.third_element, $scope.fourth_element];
+                    while(image.indexOf(undefined) >= 0) {
+                        image.splice(image.indexOf(undefined), 1);
+                    }
+
+                    var description = [$scope.first_element_text, $scope.second_element_text, $scope.third_element_text, $scope.fourth_element_text]
+                    while(description.indexOf(undefined) >= 0) {
+                        description.splice(description.indexOf(undefined), 1);
+                    }
+
+                    $http({
+                        method: 'POST',
+                        url: "http://100.64.17.109:13451/api/stories/add",
+                        data: {
+                            'url': image,
+                            'description': description,
+                            'id_user': 1,
+                            'type': 2,
+                            'name': $scope.tutorial_name
+                        }
+                    }).then(function (value) {}, function (reason) {
+                        console.log(reason);
+                    });
+                    $mdDialog.cancel();
+                };
+                $scope.cancel = function() {
+                    $mdDialog.cancel();
+                };
+            }
+
+            $scope.showAddTutorialDialog = function(ev, idStory) {
+                $scope.id_story = idStory;
+                $mdDialog.show({
+                    controller: DialogControllerPublicTutorial,
+                    templateUrl: 'html/publicTutorial.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    preserveScope: true,
+                    scope: $scope,
+                    clickOutsideToClose: true
+                })
+                    .then(function(answer) {}, function() {});
+            };
+
+            $scope.has_build = [];
             $scope.changePublicDialog = function(ev, idStory) {
                 $scope.id_story = idStory;
                 $mdDialog.show({
@@ -202,13 +253,13 @@
             }
 
             $scope.draw_data = function(index, type, android, web) {
-                var width = 250;
-                height = 250;
-                margin = 20;
+                var width = 125;
+                var height = 125;
 
-                var radius = Math.min(width, height) / 2 - margin;
+                var radius = Math.min(width, height) / 2 - 10;
 
-                var svg = d3.select("#my_dataviz" + index)
+                var svg = d3
+                    .select("#my_dataviz" + index + ":empty")
                     .append("svg")
                     .attr("width", width)
                     .attr("height", height)
@@ -216,13 +267,9 @@
                     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
                 var data = {'android': android, 'web': web};
+                var color = {'android': '#1e1819', 'web': '#ff233c'};
 
-                var color = d3.scaleOrdinal()
-                    .domain(data)
-                    .range(d3.schemeSet2);
-
-                var pie = d3.pie()
-                    .value(function(d) {return d.value; });
+                var pie = d3.pie().value(function(d) {return d.value; });
                 var data_ready = pie(d3.entries(data));
 
                 var arcGenerator = d3.arc()
@@ -235,7 +282,55 @@
                     .enter()
                     .append('path')
                     .attr('d', arcGenerator)
-                    .attr('fill', function(d){ return(color(d.data.key)) })
+                    .attr('fill', function(d){ return(color[d.data.key]) })
+                    .attr("stroke", "black")
+                    .style("stroke-width", "2px")
+                    .style("opacity", 0.7);
+
+                svg
+                    .selectAll('mySlices')
+                    .data(data_ready)
+                    .enter()
+                    .append('text')
+                    .text(function(d){ return d.data.key})
+                    .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
+                    .style("text-anchor", "middle")
+                    .style("font-size", 17);
+            };
+
+            $scope.draw_like_data = function(index, like, dislike) {
+                var width = 125;
+                var height = 125;
+
+                var radius = Math.min(width, height) / 2 - 10;
+
+                console.log(index + " " + like + " " + dislike);
+
+                var svg = d3
+                    .select("#my_like_dataviz" + index + ":empty")
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .append("g")
+                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+                var data = {'like': like, 'dislike': dislike};
+                var color = {'like': '#ff233c', 'dislike': '#1e1819'};
+
+                var pie = d3.pie().value(function(d) {return d.value; });
+                var data_ready = pie(d3.entries(data));
+
+                var arcGenerator = d3.arc()
+                    .innerRadius(0)
+                    .outerRadius(radius);
+
+                svg
+                    .selectAll('mySlices')
+                    .data(data_ready)
+                    .enter()
+                    .append('path')
+                    .attr('d', arcGenerator)
+                    .attr('fill', function(d){ return(color[d.data.key]) })
                     .attr("stroke", "black")
                     .style("stroke-width", "2px")
                     .style("opacity", 0.7);
@@ -252,18 +347,15 @@
             }
         });
     </script>
-    <title>Главная</title>
 </head>
 <style>
-    .sample-show-hide {
-        transition: all linear 0.5s;
-    }
-    .sample-show-hide.ng-hide {
-        opacity: 0;
-    }
+    body, html { background-color: #fff; }
+    .sample-show-hide { transition: all linear 0.5s; }
+    .sample-show-hide.ng-hide { opacity: 0; }
 </style>
 <body id="home" ng-app="Index" ng-controller="IndexController">
 <div class="body-wrapper">
+    <!-- шапка страницы -->
     <header class="page-header">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -288,7 +380,9 @@
             </nav>
         </div>
     </header>
+    <!-- конец шапки страницы -->
 
+    <!-- блок отображения пользователей -->
     <section id="section1" style="margin-top: 50px;">
         <div class="container">
             <div class="row">
@@ -297,19 +391,31 @@
                     <md-card ng-repeat="user in profile" md-theme-watch>
                         <md-card-title ng-model="checked" ng-click="checked = !checked;">
                             <md-card-title-text>
-                                <span class="md-headline">Профиль #{{user.id_profile}}: "{{user.description}}"</span>
+                                <span class="md-headline">Профиль "{{user.description}}"</span>
                             </md-card-title-text>
                         </md-card-title>
                         <md-card-content class="content-area sample-show-hide" ng-show="checked">
                             <md-list>
                                 <md-list-item class="md-3-line" ng-repeat="u in user.users">
                                     <div class="md-list-item-text">
-                                        <h3>{{u.name}}</h3>
-                                        <h4>Идентификатор: {{u.id_user}}</h4>
-<!--                                           <p>{{item.notes}}</p>-->
+                                        <h2>{{u.name}}</h2>
+                                        <table style="width: 100%" class="table table-striped">
+                                            <thead>
+                                                <th>Услуга</th>
+                                                <th>Android</th>
+                                                <th>Web</th>
+                                                <th></th>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="feature in u.feature" style="font-size: 20px;">
+                                                    <td>{{feature.name}}</td>
+                                                    <td>{{feature.is_android}}</td>
+                                                    <td>{{feature.is_web}}</td>
+                                                    <td>{{draw_data($index, u.name, feature.count_android, feature.count_web)}}<div id="my_dataviz{{$index}}"></div></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <md-button class="md-secondary" ng-click="showHistory($event, u.id_user)">Подробнее</md-button>
-                                    <md-divider ng-if="!$last"></md-divider>
                                 </md-list-item>
                             </md-list>
                         </md-card-content>
@@ -318,11 +424,13 @@
             </div>
         </div>
     </section>
+    <!-- конец блока отображения пользователей -->
 
+    <!-- блок работы с историями и туториалами -->
     <section id="section2" style="margin-top: 50px;">
         <div class="container">
             <div class="row">
-                <div class="col-md-8 text-center offset-md-2">
+                <div class="col-md-6 text-center">
                     <h2 class="section-heading wow fadeInUp">Истории</h2>
                     <center><md-button class="md-secondary" ng-click="showAddDialog($event)">Добавить</md-button></center>
                     <md-card ng-repeat="story in stories" md-theme-watch>
@@ -333,6 +441,7 @@
                         </md-card-title>
                         <md-card-content class="content-area sample-show-hide" ng-show="checked">
                             <img ng-repeat="img in story.image" src="{{img}}" height="150px" style="margin: 15px;"/>
+                            <td>{{draw_like_data($index, story.like_count, story.dislike_count)}}<div id="my_like_dataviz{{$index}}"></div></td>
                         </md-card-content>
                         <md-card-footer>
                             <md-button ng-click="showPublicDialog($event, story.id_stories)">Опубликовать</md-button>
@@ -340,37 +449,41 @@
                         </md-card-footer>
                     </md-card>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="section3" style="margin-top: 50px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 text-center offset-md-2">
-                    <h2 class="section-heading wow fadeInUp">Функции пользователей</h2>
-                    <table style="width: 100%" class="table table-striped">
-                        <thead>
-                            <th>Пользователь</th>
-                            <th>Услуга</th>
-                            <th>Android</th>
-                            <th>Web</th>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="feature in features">
-                            <td>{{feature.user_name}} ({{feature.id_user}})</td>
-                            <td>{{feature.name}}</td>
-                            <td>{{feature.is_android}}</td>
-                            <td>{{feature.is_web}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="col-md-6 text-center">
+                    <h2 class="section-heading wow fadeInUp">Туториал</h2>
+                    <center><md-button class="md-secondary" ng-click="showAddTutorialDialog($event)">Добавить</md-button></center>
+                    <md-card ng-repeat="tutorial in tutorials" md-theme-watch>
+                        <md-card-title ng-model="checked" ng-click="checked = !checked;">
+                            <md-card-title-text>
+                                <span class="md-headline">{{tutorial.name}}</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                        <md-card-content class="content-area sample-show-hide" ng-show="checked">
+                            <table style="width: 100%" class="table table-striped">
+                                <thead>
+                                    <th>Компонент</th>
+                                    <th>Текст подсказки</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="img in tutorial.image">
+                                        <td>{{img}}</td>
+                                        <td>{{tutorial.description[$index]}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </md-card-content>
+                        <md-card-footer>
+                            <md-button ng-click="showPublicDialog($event, tutorial.id_notification)">Опубликовать</md-button>
+                        </md-card-footer>
+                    </md-card>
                 </div>
             </div>
         </div>
     </section>
+    <!-- конец блока работы с историями и туториалами -->
 
-    <section class="footer">
+    <!-- подвал страницы -->
+    <section class="footer" style="margin-top: 50px;">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -379,6 +492,7 @@
             </div>
         </div>
     </section>
+    <!-- конец подвала страницы -->
 </div>
 </body>
 </html>

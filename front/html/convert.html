@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <title>[Life] Laboratory | Конвертер валют</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -17,14 +18,14 @@
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script type="text/javascript">
         var app = angular.module("Index", ['ngMaterial']);
-        app.controller("IndexController", function($scope, $http, $mdDialog){
-
-        });
+        app.controller("IndexController", function($scope, $http, $mdDialog){});
     </script>
     <title>Главная</title>
 </head>
+<!-- страница конвертирования валют -->
 <body id="home" ng-app="Index" ng-controller="IndexController">
 <div class="body-wrapper">
+    <!-- шапка страницы -->
     <header class="page-header">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -36,7 +37,9 @@
             </nav>
         </div>
     </header>
+    <!-- конец шапки страницы -->
 
+    <!-- форма конвертирования -->
     <section id="section1">
         <div class="container">
             <div class="row">
@@ -60,7 +63,9 @@
             </div>
         </div>
     </section>
+    <!-- конец формы конвертирования -->
 
+    <!-- подвал страницы -->
     <section class="footer">
         <div class="container">
             <div class="row">
@@ -70,6 +75,7 @@
             </div>
         </div>
     </section>
+    <!-- конец подвала страницы -->
 </div>
 </body>
 </html>

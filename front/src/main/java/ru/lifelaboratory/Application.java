@@ -1,19 +1,17 @@
 package ru.lifelaboratory;
 
 import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
-import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.eventbus.MessageConsumer;
-import io.vertx.core.http.HttpClient;
-import io.vertx.core.http.HttpClientOptions;
-import io.vertx.core.http.HttpMethod;
-import io.vertx.core.http.HttpVersion;
 
+/**
+ * Класс для поднятия сервера с использованием Vert.X
+ * @see Vertx
+ */
 public class Application {
 
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
 
+        // распредедение роутов по файлам
         vertx.createHttpServer().requestHandler(request -> {
             if (request.uri().equals("/"))
                 request.response().sendFile("html/index.html");
@@ -29,7 +27,7 @@ public class Application {
                 request.response().sendFile(request.uri().substring(1));
             else
                 request.response().end();
-        }).listen(8081);
+        }).listen(8081); // старт сервера
     }
 
 }

@@ -6,6 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+/**
+ * Класс для активности "Мультивалютные переводы"
+ * @author Boris Bockarev <Boris-Bochkaryov@yandex.ru>
+ */
 public class CurrencyTransferActivity extends AppCompatActivity {
 
     @Override

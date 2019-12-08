@@ -23,15 +23,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="100.64.23.177"
+                    android:host="100.64.17.75"
                     android:pathPrefix="/transfer"
                     android:scheme="http" />
                 <data
-                    android:host="100.64.23.177"
+                    android:host="100.64.17.75"
                     android:pathPrefix="/qr"
                     android:scheme="http" />
                 <data
-                    android:host="100.64.23.177"
+                    android:host="100.64.17.75"
                     android:pathPrefix="/convert"
                     android:scheme="http" />
                 <data
