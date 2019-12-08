@@ -1,12 +1,15 @@
 package ru.lifelaboratory.rosbank;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -247,6 +250,8 @@ public class MainActivity extends AppCompatActivity {
 
     List<String> image = new ArrayList<>();
     List<String> description = new ArrayList<>();
+    AlertDialog dialog = null;
+    ServerAPI auth = null;
 
     @Override
     protected void onResume() {
@@ -255,26 +260,61 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String action = intent.getAction();
         if (action != null) {
-            Log.e(Constants.LOG_TAG, action);
+            Log.d(Constants.LOG_TAG, action);
             // если пришли из сторис
             if (action.equals("android.intent.action.MAIN")) {
-                ServerAPI auth = MainActivity.server.create(ServerAPI.class);
-                if (idResources != null)
-                    for (Integer idResource : idResources) {
-                        ViewStories viewStories = new ViewStories();
-                        viewStories.setIdUser(MainActivity.user.getIdUser());
-                        viewStories.setIdStories(idResource);
-                        viewStories.setStatus("view");
-                        auth.sendView(viewStories)
-                                .enqueue(new Callback<Object>() {
-                                    @Override
-                                    public void onResponse(Call<Object> call, Response<Object> response) { }
-                                    @Override
-                                    public void onFailure(Call<Object> call, Throwable t) {
-                                        Log.e(Constants.LOG_TAG, "Error from MainActivity (onResume): " + t.getMessage());
-                                    }
-                                });
-                    }
+                auth = MainActivity.server.create(ServerAPI.class);
+                if (idResources != null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppTheme));
+                    builder.setTitle("Вам понравилась история");
+                    builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            for (Integer idResource : idResources) {
+                                ViewStories viewStories = new ViewStories();
+                                viewStories.setIdUser(MainActivity.user.getIdUser());
+                                viewStories.setIdStories(idResource);
+                                viewStories.setStatus("view");
+                                viewStories.setIsLike(true);
+                                auth.sendView(viewStories)
+                                        .enqueue(new Callback<Object>() {
+                                            @Override
+                                            public void onResponse(Call<Object> call, Response<Object> response) { }
+                                            @Override
+                                            public void onFailure(Call<Object> call, Throwable t) {
+                                                Log.e(Constants.LOG_TAG, "Error from MainActivity (onResume): " + t.getMessage());
+                                            }
+                                        });
+                            }
+
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            for (Integer idResource : idResources) {
+                                ViewStories viewStories = new ViewStories();
+                                viewStories.setIdUser(MainActivity.user.getIdUser());
+                                viewStories.setIdStories(idResource);
+                                viewStories.setStatus("view");
+                                viewStories.setIsLike(false);
+                                auth.sendView(viewStories)
+                                        .enqueue(new Callback<Object>() {
+                                            @Override
+                                            public void onResponse(Call<Object> call, Response<Object> response) { }
+                                            @Override
+                                            public void onFailure(Call<Object> call, Throwable t) {
+                                                Log.e(Constants.LOG_TAG, "Error from MainActivity (onResume): " + t.getMessage());
+                                            }
+                                        });
+                            }
+
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog = builder.show();
+                }
             } else if(action.equals("lifelaboratory.from_notification_service")) { // если пришли из уведомления
                 if (intent.getIntExtra("TYPE", Integer.MIN_VALUE) == 2) {
                     Collections.addAll(image, intent.getStringExtra("image").split(";"));

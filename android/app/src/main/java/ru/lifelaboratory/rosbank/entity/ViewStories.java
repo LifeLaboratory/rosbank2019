@@ -22,5 +22,7 @@ public class ViewStories {
     @SerializedName("id_stories")
     private Integer idStories;
     private String status;
+    @SerializedName("is_like")
+    private Boolean isLike;
 
 }
