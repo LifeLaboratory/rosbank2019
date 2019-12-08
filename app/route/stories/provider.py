@@ -224,7 +224,7 @@ class Provider:
     array_agg(img."description" order by position) as description
   from images img
   join stories str on img."id_stories" = str."id_stories"
-  join publicated_stories ps on ps.id_stories = str.id_stories
+  {left_string} join publicated_stories ps on ps.id_stories = str.id_stories
   where img."id_stories" = {id_stories}
   group by img."id_stories", str."type"
   """

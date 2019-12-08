@@ -1,7 +1,8 @@
 from app.route.stories.provider import Provider
 from app.api.base import base_name as names
 from app.api.helper import get_id_user_by_profile, get_id_user_by_profiles
-from app.api.helper import get_admins
+from app.api.helper import get_admins, get_all_profile
+from app.route.notifications.processor import add_notification
 
 
 def publicate_storie(args):
@@ -36,6 +37,10 @@ def insert_stories(args):
         args[names.DESCRIPTION] = args.get(names.DESCRIPTION)[i] if args.get(names.DESCRIPTION) else ''
         provider.insert_image(args)
         args[names.POSITION] += 1
+    if args.get(names.TYPE) == '2':
+        args[names.ID_PROFILE] = 4
+        args[names.STATUS] = 'open'
+        add_notification(args)
     return names.OK
 
 

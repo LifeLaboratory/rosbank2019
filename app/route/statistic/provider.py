@@ -46,17 +46,31 @@ class Provider:
         :return:
         """
         query = """
-  with feature as (
+with 
+  count_is_feature as (
+    select
+      uf."id_user", 
+    count(1) filter(where "is_web" is true) as "count_web",
+    count(1) filter(where "is_android" is true) as "count_android"
+  from
+    user_features uf
+  join features f on uf."id_features" = f."id_features"
+  group by uf."id_user"
+  ),
+  feature as (
     select
       uf."id_user",
       array_agg(json_build_object(
         'name', f."name",
         'is_android', uf."is_android",
-        'is_web', uf."is_web"
+        'is_web', uf."is_web", 
+        'count_web', cif."count_web",
+        'count_android', cif."count_android"
       )) array_f
     from
       user_features uf
     join features f on uf."id_features" = f."id_features"
+    join count_is_feature cif on cif."id_user" = uf."id_user"
     group by uf."id_user"
   ),
     actions_agg as (
