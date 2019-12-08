@@ -8,11 +8,12 @@
 * Postgresql - основные блоки бизнес-логики на SQL.
 * 
 
-### сборка backend
-docker-compose build\
+### Сборка backend
+```
+docker-compose build
 docker-compose up
-
-### сборка frontend
+```
+### Сборка frontend
 
 
 ### Сборка android
@@ -52,7 +53,7 @@ docker-compose up
 
 
 # Сontributors
-* [Чусовитин Антон](https://github.com/Txyza)- тимлид, backend разработчик.
+* [Чусовитин Антон](https://github.com/Txyza) - тимлид, backend разработчик.
 * [Бочкарев Борис](https://github.com/BorisBochkaryov) - frontend и android разработчик.
 * [Енина Екатерина](https://github.com/KateStich) - backend разработчик.
 * [Крылосов Андрей](https://github.com/raldenprog) - backend разработчик.
