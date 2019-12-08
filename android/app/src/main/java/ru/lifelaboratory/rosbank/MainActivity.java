@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -323,6 +324,12 @@ public class MainActivity extends AppCompatActivity {
                     int resID = getResources().getIdentifier(image.get(0), "id", getPackageName());
                     if (findViewById(resID) != null) {
                         // отображение подсказок на экране
+
+                        GradientDrawable drawable = new GradientDrawable();
+                        drawable.setShape(GradientDrawable.RECTANGLE);
+                        drawable.setStroke(5, Color.RED);
+                        ((View) findViewById(resID)).setBackgroundDrawable(drawable);
+
                         new Tooltip.Builder(findViewById(resID))
                                 .setBackgroundColor(Color.parseColor("#000000"))
                                 .setTextColor(Color.parseColor("#ffffff"))
