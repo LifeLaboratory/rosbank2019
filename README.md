@@ -6,18 +6,32 @@
     * В качестве веб-фреймворка используется Flask-restful
     * Архитектура бизнес-логики строится по принципу MVC.
 * Postgresql - основные блоки бизнес-логики на SQL.
-* 
+* Java - используется для реализации Android приложения и Backend пользовательского портала:
+    * [lombok](https://projectlombok.org/) - библиотека для Java, позволяющая на основе аннотаций реализовать генерацию кода.
+    * [Retrofit2](https://square.github.io/retrofit/) - библиотека для реализации сетевого взаимодействия.
+    * [Vert.x](http://vertx.io/) - библиотека для реактивных backend приложений на JVM-языках.
+    * [Picasso](https://square.github.io/picasso/) - библиотека для работы с изображениями.
+    * [RxJava](https://github.com/ReactiveX/RxJava) - реализация реактивных запросов между клиентов и сервером.
+* JavaScript - реализация Frontend:
+    * [AngularJS](https://angularjs.org/) - основная библиотека для реализации Frontend.
+    * [AngularJS Material](https://material.angularjs.org/) - библиотека JavaScript для реализации элементов интерфейса.
 
 ### Сборка backend
 ```
 docker-compose build
 docker-compose up
 ```
-### Сборка frontend
 
+### Сборка и запуск frontend
 
-### Сборка android
+    gradle build
+    gradle run
 
+### Сборка и получение apk файла для Android
+
+    gradle assemble
+    
+или используя Android Studio с SDK >= 21
 
 ## Реализованный функционал
 * Авторизация пользователей. Пользователи делятся на 2 типа. Администраторы и клиенты.
