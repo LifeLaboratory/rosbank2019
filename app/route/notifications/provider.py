@@ -42,7 +42,7 @@ class Provider:
         query = """
   select notifications.* from notifications_users
   join notifications on notifications.id_notification = notifications_users.id_notification
-  where id_user = {id_user} and active is True and NOW() > time
+  where id_user = {id_user} {active} and NOW() > time
   """
         return Sql.exec(query=query, args=args)
 

@@ -25,7 +25,7 @@ class NotificationGet(BaseRouter):
     """
     def __init__(self):
         super().__init__()
-        self.args = [names.ID_NOTIFICATION, names.NAME, names.URL, names.ID_PROFILE, names.STATUS]
+        self.args = [names.ID_NOTIFICATION, names.NAME, names.URL, names.ID_PROFILE, names.STATUS, names.ACTIVE]
 
     def get(self, id_user):
         args = {
