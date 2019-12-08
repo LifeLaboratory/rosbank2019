@@ -10,6 +10,10 @@
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Название туториала</label>
+                    <input ng-model="tutorial_name">
+                </md-input-container>
                 <md-input-container>
                     <md-select ng-model="first_element" placeholder="Элемент">
                         <md-option value="transfer">Кнопка "Перевод"</md-option>
