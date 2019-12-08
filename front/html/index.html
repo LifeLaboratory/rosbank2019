@@ -19,6 +19,7 @@
     <script type="text/javascript">
         var app = angular.module("Index", ['ngMaterial']);
         app.controller("IndexController", function($scope, $http, $mdDialog){
+            // запонение массивов данных
             $scope.profile = [];
             $http({
                 method: 'GET',
@@ -84,11 +85,7 @@
                     scope: $scope,
                     clickOutsideToClose: true
                 })
-                    .then(function(answer) {
-                        $scope.status = 'You said the information was "' + answer + '".';
-                    }, function() {
-                        $scope.status = 'You cancelled the dialog.';
-                    });
+                    .then(function(answer) {}, function() {});
             };
 
             function DialogController($scope, $mdDialog) {
@@ -131,11 +128,7 @@
                     scope: $scope,
                     clickOutsideToClose: true
                 })
-                    .then(function(answer) {
-                        $scope.status = 'You said the information was "' + answer + '".';
-                    }, function() {
-                        $scope.status = 'You cancelled the dialog.';
-                    });
+                    .then(function(answer) {}, function() {});
             };
 
             function DialogControllerPublicHistory($scope, $mdDialog) {
@@ -170,11 +163,7 @@
                     preserveScope: true,
                     clickOutsideToClose: true
                 })
-                    .then(function(answer) {
-                        $scope.status = 'You said the information was "' + answer + '".';
-                    }, function() {
-                        $scope.status = 'You cancelled the dialog.';
-                    });
+                    .then(function(answer) {}, function() {});
             };
 
             function DialogControllerPublicTutorial($scope, $mdDialog) {
@@ -227,11 +216,7 @@
                     scope: $scope,
                     clickOutsideToClose: true
                 })
-                    .then(function(answer) {
-                        $scope.status = 'You said the information was "' + answer + '".';
-                    }, function() {
-                        $scope.status = 'You cancelled the dialog.';
-                    });
+                    .then(function(answer) {}, function() {});
             };
 
             $scope.draw_data = function(index, type, android, web) {
@@ -285,21 +270,15 @@
             }
         });
     </script>
-    <title>Главная</title>
 </head>
 <style>
-    body, html {
-        background-color: #fff;
-    }
-    .sample-show-hide {
-        transition: all linear 0.5s;
-    }
-    .sample-show-hide.ng-hide {
-        opacity: 0;
-    }
+    body, html { background-color: #fff; }
+    .sample-show-hide { transition: all linear 0.5s; }
+    .sample-show-hide.ng-hide { opacity: 0; }
 </style>
 <body id="home" ng-app="Index" ng-controller="IndexController">
 <div class="body-wrapper">
+    <!-- шапка страницы -->
     <header class="page-header">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -324,7 +303,9 @@
             </nav>
         </div>
     </header>
+    <!-- конец шапки страницы -->
 
+    <!-- блок отображения пользователей -->
     <section id="section1" style="margin-top: 50px;">
         <div class="container">
             <div class="row">
@@ -366,7 +347,9 @@
             </div>
         </div>
     </section>
+    <!-- конец блока отображения пользователей -->
 
+    <!-- блок работы с историями и туториалами -->
     <section id="section2" style="margin-top: 50px;">
         <div class="container">
             <div class="row">
@@ -418,7 +401,9 @@
             </div>
         </div>
     </section>
+    <!-- конец блока работы с историями и туториалами -->
 
+    <!-- подвал страницы -->
     <section class="footer">
         <div class="container">
             <div class="row">
@@ -428,6 +413,7 @@
             </div>
         </div>
     </section>
+    <!-- конец подвала страницы -->
 </div>
 </body>
 </html>
