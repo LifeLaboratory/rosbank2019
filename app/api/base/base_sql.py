@@ -6,18 +6,43 @@ from app.config.config import DATABASE
 
 
 class Sql:
+    """
+    Базовый класс для работы с БД
+    """
     @staticmethod
     def connect():
+        """
+        Метод подключения к бд
+        :return:
+        """
         config_connect = "dbname='{dbname}' user='{user}' host='{host}' password='{password}'"
         connect = psycopg2.connect(config_connect.format(**DATABASE))
         return connect, connect.cursor(cursor_factory=RealDictCursor)
 
     @staticmethod
     def exec(query=None, args=None, file=None):
+        """
+        Метод для выполнения sql запроса
+        :param query:
+        :param args:
+        :param file:
+        :return:
+        """
         return Sql._switch(query=query, args=args, file=file)
 
     @staticmethod
     def _switch(query=None, args=None, file=None):
+        """
+        Метод разводящий - для выбора режима sql запроса
+        с аргументами
+        без аргументов
+        файл с аргументами
+        файл без аргументов
+        :param query:
+        :param args:
+        :param file:
+        :return:
+        """
         if query and args:
             return Sql._query_exec_args(query, args)
         if query and not args:
@@ -30,22 +55,44 @@ class Sql:
 
     @staticmethod
     def _query_exec(query):
+        """
+        Выполнить sql без аргументов
+        :param query:
+        :return:
+        """
         return Sql._exec(query)
 
     @staticmethod
     def _query_file_exec(file):
+        """
+        Метод вычитывает sql запрос из файла и исполняет его без аргументов
+        :param file:
+        :return:
+        """
         with open(file, 'r') as f:
             query = f.read()
             return Sql._exec(query)
 
     @staticmethod
     def _query_file_args_exec(file, args):
+        """
+        Метод вычитывает sql запрос из файла и исполняет его с аргументами
+        :param file:
+        :param args:
+        :return:
+        """
         with open(file, 'r') as f:
             query = f.read().format(**args)
             return Sql._exec(query)
 
     @staticmethod
     def _query_exec_args(query, args):
+        """
+        Метод выполняет sql запрос с аргументами
+        :param query:
+        :param args:
+        :return:
+        """
         for k, v in args.items():
             alert_items = ["'", '"', ';', '-', '*', 'drop', 'select', '=', 'insert']
             if isinstance(v, str):

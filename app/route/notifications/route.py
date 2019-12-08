@@ -6,7 +6,7 @@ from app.api.base.base_router import BaseRouter
 
 class Notification(BaseRouter):
     """
-    Роут работы с уведомлениями
+    Роут для добавления уведомлений
     """
     def __init__(self):
         super().__init__()
@@ -16,14 +16,12 @@ class Notification(BaseRouter):
     def post(self):
         self._read_args()
         answer = add_notification(self.data)
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer, 200, names.CORS_HEADERS
 
-class Notification_get(BaseRouter):
+
+class NotificationGet(BaseRouter):
     """
-    Роут работы с уведомлениями
+    Роут получения уведомлений по ид пользователя
     """
     def __init__(self):
         super().__init__()
@@ -34,7 +32,4 @@ class Notification_get(BaseRouter):
             names.ID_USER: id_user
         }
         answer = get_notification(args)
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer, 200, names.CORS_HEADERS

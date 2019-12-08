@@ -1,10 +1,16 @@
 from app.route.stories.provider import Provider
-from app.route.notifications import provider as provider_notifications
 from app.api.base import base_name as names
 from app.api.helper import get_id_user_by_profile, get_id_user_by_profiles
+from app.api.helper import get_admins, get_all_profile
+from app.route.notifications.processor import add_notification
 
 
 def publicate_storie(args):
+    """
+    Опубликовать исторю
+    :param args:
+    :return:
+    """
     provider = Provider()
     if isinstance(args.get(names.ID_PROFILE), list):
         id_users = get_id_user_by_profiles(args)
@@ -12,65 +18,117 @@ def publicate_storie(args):
         id_users = get_id_user_by_profile(args)
     for id_user in id_users:
         args[names.ID_USER] = id_user.get(names.ID_USER)
-        answer = provider.publicate_storie(args)
-    return 'OK'
+        provider.publicate_storie(args)
+    return names.OK
 
 
 def insert_stories(args):
+    """
+    Создать историю
+    :param args:
+    :return:
+    """
     provider = Provider()
     answer = provider.insert_stories(args)[0]
-    args['id_stories'] = answer.get('id_stories')
-    args['position'] = 0
-    for image in args.get('url'):
-        args['url'] = image
+    args[names.ID_STORIES] = answer.get(names.ID_STORIES)
+    args[names.POSITION] = 0
+    for i in range(len(args.get(names.URL))):
+        args[names.URL] = args.get(names.URL)[i]
+        args[names.DESCRIPTION] = args.get(names.DESCRIPTION)[i] if args.get(names.DESCRIPTION) else ''
         provider.insert_image(args)
-        args['position'] += 1
-    return 'OK'
+        args[names.POSITION] += 1
+    if args.get(names.TYPE) == '2':
+        args[names.ID_PROFILE] = 4
+        args[names.STATUS] = 'open'
+        add_notification(args)
+    return names.OK
 
 
 def stories_profile(args):
+    """
+    Получить истории для профиля
+    :param args:
+    :return:
+    """
     provider = Provider()
     answer = provider.stories_profile(args)
     return answer
 
 
 def update_stories(args):
+    """
+    Обновить историю
+    :param args:
+    :return:
+    """
     provider = Provider()
-    answer = provider.update_stories(args)
-    answer = provider.delete_images(args)
-    args['position'] = 0
-    for image in args.get('url'):
-        args['url'] = image
+    provider.update_stories(args)
+    provider.delete_images(args)
+    args[names.POSITION] = 0
+    for i in range(len(args.get(names.URL))):
+        args[names.URL] = args.get(names.URL)[i]
+        args[names.DESCRIPTION] = args.get(names.DESCRIPTION)[i]
         provider.insert_image(args)
-        args['position'] += 1
-    return 'OK'
+        args[names.POSITION] += 1
+    return names.OK
 
 
 def change_status(args):
+    """
+    Изменить статус в действий пользователя
+    :param args:
+    :return:
+    """
     provider = Provider()
     status = provider.select_status(args)
-    args['is_open'] = args['status'] == 'open'
-    args['is_view'] = args['status'] == 'view'
-    if args.get('id_notification') is not None:
-        args['active'] = False if args['is_view'] else True
-        answer = provider.update_notifications_user(args)
-    if args.get('status') is not None:
+    args[names.IS_OPEN] = args[names.STATUS] == 'open'
+    args[names.IS_VIEW] = args[names.STATUS] == 'view'
+    if args.get(names.ID_NOTIFICATION) is not None:
+        args[names.ACTIVE] = False if args[names.IS_VIEW] else True
+        provider.update_notifications_user(args)
+    if args.get(names.STATUS) is not None:
         if status:
-            answer = provider.update_status(args)
+            provider.update_status(args)
         else:
-            answer = provider.insert_status(args)
+            provider.insert_status(args)
     if args.get(names.IS_LIKE):
-        answer = provider.update_like(args)
-    return 'OK'
+        provider.update_like(args)
+    return names.OK
 
 
 def get_stories_list(args):
+    """
+    Поулчить истории для пользователя
+    :param args:
+    :return:
+    """
     provider = Provider()
     answer = provider.get_stories_list(args)
     return answer
 
 
+def get_admins_ids(args):
+    """
+    Метод возвращает список id администраторов
+    :param args:
+    :return:
+    """
+    result = []
+    admins_ids = get_admins(args)
+    for admin_id in admins_ids:
+        result.append(admin_id.get(names.ID_USER))
+    return result
+
+
 def get_all_stories(args):
+    """
+    Получить все истории для пнаели админа
+    :param args:
+    :return:
+    """
     provider = Provider()
+    args['left_string'] = ''
+    if args.get(names.ID_USER) and int(args.get(names.ID_USER)) in get_admins_ids(args):
+        args['left_string'] = 'left'
     answer = provider.get_all_stories(args)
     return answer

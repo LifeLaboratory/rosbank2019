@@ -5,7 +5,9 @@ from app.api.base.base_router import BaseRouter
 
 
 class Auth(BaseRouter):
-
+    """
+    Роут авторизации пользователя
+    """
     def __init__(self):
         super().__init__()
         self.args = [names.LOGIN, names.PASSWORD]
@@ -13,13 +15,13 @@ class Auth(BaseRouter):
     def post(self):
         self._read_args()
         answer = auth(self.data)
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer, 200, names.CORS_HEADERS
 
 
 class Register(BaseRouter):
+    """
+    Роут регистрации пользователя
+    """
     def __init__(self):
         super().__init__()
         self.args = [names.LOGIN, names.PASSWORD, names.FIO, names.DESCRIPTION, names.PHOTO]
@@ -33,7 +35,4 @@ class Register(BaseRouter):
             or '' == self.data.get(names.DESCRIPTION):
             return {}
         answer = register(self.data)
-        return answer or {}, 200, {'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*',
-                'Access-Control-Allow-Headers': '*',
-                }
+        return answer, 200, names.CORS_HEADERS

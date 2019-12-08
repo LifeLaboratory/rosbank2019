@@ -5,6 +5,9 @@ from app.config.config import HOST
 
 
 class TestStories(unittest.TestCase):
+    """
+    Тестирование взаимодействия с api сторис
+    """
     def test_stories(self):
         d = {
             names.ID_STORIES: 11,

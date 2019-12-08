@@ -5,18 +5,25 @@ from app.api.base import base_name as names
 
 
 def get_feature_user(data):
+    """
+    Получить используемый функционал по ид пользователя
+    :param data:
+    :return:
+    """
     provider = Provider()
     answer = provider.get_feature_user(data)
     return answer
 
 
 def insert_feature(data):
+    """
+    Добавить новый функционал
+    :param data:
+    :return:
+    """
     provider = Provider()
     provider_not = ProviderNot()
-    answer = provider.insert_feature(data)
-    data['url'] = ''
-    data['status'] = ''
-    data['id_stories'] = None
+    provider.insert_feature(data)
     answer = provider_not.insert_notification(data)[0]
     data[names.ID_NOTIFICATION] = answer.get(names.ID_NOTIFICATION)
     admin_ids = get_admins(data)

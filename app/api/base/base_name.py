@@ -10,8 +10,11 @@ ID_ACTION = "id_action"
 NAME_PLATFORM = "platform"
 STATS_POSTS_ID = "@статистика_постов"
 STATS_POSTS = "статистика_постов"
-DESCRIPTION = "описание"
+DESCRIPTION = "description"
 FIO = "fio"
+IS_OPEN = 'is_open'
+IS_VIEW = 'is_view'
+ACTIVE = 'active'
 TITLE = "title"
 URL = "url"
 PHOTO = "photo"
@@ -24,6 +27,7 @@ PASSWORD = "password"
 TYPE = "type"
 QUERY = "query"
 STATUS = "status"
+IMAGE = 'image'
 FIELD = "field"
 ID_NAME = "id_nom"
 ID_USER = "id_user"
@@ -103,7 +107,7 @@ code_another_activity = 'КодДопДеятельности'
 get_answer = 'СпособОтвета'
 tel_number = 'НомерТел'
 email = 'email'
-position = 'Должность'
+POSITION = 'position'
 attestor = 'Свидетель'
 inn_attestor = 'СвидетельИНН'
 likes = 'лайки'
@@ -175,3 +179,8 @@ print_form_fields = [
     tel_number,
     email
 ]
+
+CORS_HEADERS = {'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*',
+                'Access-Control-Allow-Headers': '*',
+                }

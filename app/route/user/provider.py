@@ -2,8 +2,16 @@ from app.api.base.base_sql import Sql
 
 
 class Provider:
+    """
+    Класс для работы с авторизацией и регистрацией пользователей
+    """
     @staticmethod
     def auth_user(args):
+        """
+        Авторизовать пользователя
+        :param args:
+        :return:
+        """
         query = """
     select "id_user"
     from "users"
@@ -15,6 +23,11 @@ class Provider:
 
     @staticmethod
     def check_user(args):
+        """
+        Проверить существует ли пользователь
+        :param args:
+        :return:
+        """
         query = """
   select 1
   from "users"
@@ -26,6 +39,11 @@ class Provider:
 
     @staticmethod
     def register_user(args):
+        """
+        Зарегистрировать пользователя
+        :param args:
+        :return:
+        """
         query = """
     insert into "users"("login", "password", "is_admin", "id_profile") 
     VALUES ('{login}', 
@@ -34,22 +52,4 @@ class Provider:
     '{id_profile}')
     returning "id_user"
     """
-        return Sql.exec(query=query, args=args)
-
-    @staticmethod
-    def get_user_id(args):
-        query = """
-    select "id_user"
-    from "users"
-    where "login" = '{login}'
-                """
-        return Sql.exec(query=query, args=args)
-
-    @staticmethod
-    def get_user_info(args):
-        query = """
-            select *
-            from "users"
-            where "id_user" = '{id_user}'
-                        """
         return Sql.exec(query=query, args=args)

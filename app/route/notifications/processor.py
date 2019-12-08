@@ -1,10 +1,15 @@
 from app.route.notifications.provider import Provider
 from app.route.stories.provider import Provider as provider_stories
 from app.api.base import base_name as names
-from app.api.helper import get_id_user_by_profile
+from app.api.helper import get_id_user_by_profile, get_admins_ids
 
 
 def add_notification(args):
+    """
+    Добавить уведомление
+    :param args:
+    :return:
+    """
     provider = Provider()
     answer = provider.insert_notification(args)[0]
     args[names.ID_NOTIFICATION] = answer.get(names.ID_NOTIFICATION)
@@ -16,20 +21,21 @@ def add_notification(args):
 
 
 def get_notification(args):
+    """
+    Получить список уведомлений для пользователя
+    :param args:
+    :return:
+    """
+    req_fields = [names.IMAGE, names.DESCRIPTION, names.TYPE]
     provider = Provider()
     provider_st = provider_stories()
     answer = provider.get_notifications(args)
+    if args.get(names.ID_USER) and int(args.get(names.ID_USER)) in get_admins_ids(args):
+        args['left_string'] = 'left'
     for id in answer:
         args[names.ID_STORIES] = id.get(names.ID_STORIES)
         id[names.ID_STORIES] = id.get(names.ID_STORIES)
         result = provider_st.get_stories(args)[0]
-        id['image'] = result.get('image')
-        id['description'] = result.get('description')
-        id['type'] = result.get('type')
-    return answer
-
-
-def update_profile(args):
-    provider = Provider()
-    answer = provider.update_profile(args)
+        for field in req_fields:
+            id[field] = result.get(field)
     return answer
