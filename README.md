@@ -16,6 +16,9 @@
     * [AngularJS](https://angularjs.org/) - основная библиотека для реализации Frontend.
     * [AngularJS Material](https://material.angularjs.org/) - библиотека JavaScript для реализации элементов интерфейса.
 
+### Список задач
+https://github.com/LifeLaboratory/rosbank2019/issues
+
 ### Сборка backend
 ```
 docker-compose build
